@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="VIGA - Icono de ingeniería civil">
+  <title>VIGA - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <path d="M28 92 Q128 119 228 92 L228 106 Q128 133 28 106 Z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M43 107 Q128 130 213 107 L213 135 Q128 158 43 135 Z" fill="#12679E" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M28 136 Q128 163 228 136 L228 150 Q128 177 28 150 Z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Left support -->
+  <polygon points="45,160 30,180 60,180" fill="#0A1C2E" stroke="#FFFFFF" stroke-width="4.0" stroke-linejoin="round" />
+  <line x1="23" y1="183" x2="67" y2="183" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" />
+  
+  <!-- Right support -->
+  <polygon points="211,160 196,180 226,180" fill="#0A1C2E" stroke="#FFFFFF" stroke-width="4.0" stroke-linejoin="round" />
+  <circle cx="204" cy="186" r="4.0" fill="#E75B12" stroke="none" stroke-width="0" />
+  <circle cx="218" cy="186" r="4.0" fill="#E75B12" stroke="none" stroke-width="0" />
+  <line x1="189" y1="192" x2="233" y2="192" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" />
+  
+  <!-- Central concentrated load -->
+  <line x1="128" y1="19" x2="128" y2="59" stroke="#E75B12" stroke-width="8.0" stroke-linecap="round" />
+  <polygon points="128.0,87.0 111.88,57.0 144.12,57.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  
+  <!-- Elastic deflection curve (Cyan) with safe 13px bottom clearance -->
+  <path d="M48 211 Q128 235 208 211" fill="none" stroke="#38BDF8" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

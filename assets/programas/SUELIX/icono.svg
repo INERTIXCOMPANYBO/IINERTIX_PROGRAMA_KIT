@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="MSUELOS - Icono de ingeniería civil">
+  <title>MSUELOS - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <!-- Coordinate axes sigma - tau -->
+  <line x1="26" y1="227" x2="215" y2="227" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  <polygon points="231.0,227.0 213.0,236.68 213.0,217.32" fill="#FFFFFF" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="26" y1="227" x2="26" y2="61" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  <polygon points="26.0,45.0 35.68,63.0 16.32,63.0" fill="#FFFFFF" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  
+  <!-- Mohr's circle -->
+  <circle cx="128" cy="157" r="66" fill="none" stroke="#38BDF8" stroke-width="5.5" />
+  
+  <!-- Mohr-Coulomb failure envelope tau = c + sigma*tan(phi) -->
+  <path d="M35 134.48 L219 28.25" fill="none" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Pole of stress -->
+  <circle cx="95.0" cy="99.84" r="6.0" fill="#FFFFFF" stroke="#E75B12" stroke-width="4.0" />
+  
+  <!-- Radius vector to stress point -->
+  <line x1="128" y1="157" x2="176" y2="202" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" />
+  <circle cx="128" cy="157" r="5.0" fill="#FFFFFF" stroke="none" stroke-width="0" />
+</svg>

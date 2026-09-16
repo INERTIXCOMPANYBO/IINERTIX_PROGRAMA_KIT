@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="PUENTIX - Icono de ingeniería civil">
+  <title>PUENTIX - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <!-- Bridge deck -->
+  <path d="M26 111 H230 V127 H26 Z" fill="#38BDF8" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Arch -->
+  <path d="M36 160 Q128 39 220 160" fill="none" stroke="#38BDF8" stroke-width="7.0" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="36" y1="160" x2="36" y2="127" stroke="#38BDF8" stroke-width="5.0" stroke-linecap="round" />
+  <line x1="220" y1="160" x2="220" y2="127" stroke="#38BDF8" stroke-width="5.0" stroke-linecap="round" />
+  
+  <!-- Vertical hangers -->
+  <line x1="70" y1="87.09" x2="70" y2="127" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" />
+  <line x1="104" y1="47.23" x2="104" y2="127" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" />
+  <line x1="140" y1="41.06" x2="140" y2="127" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" />
+  <line x1="176" y1="71.94" x2="176" y2="127" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" />
+  
+  <!-- Vehicle on bridge -->
+  <path d="M62 110 V84 H149 V70 H180 L204 91 V110 Z" fill="#12679E" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M153 74 H177 L195 91 H153 Z" fill="#0A1C2E" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="79" cy="110" r="9.0" fill="#E75B12" stroke="#FFFFFF" stroke-width="4.0" />
+  <circle cx="119" cy="110" r="9.0" fill="#E75B12" stroke="#FFFFFF" stroke-width="4.0" />
+  <circle cx="176" cy="110" r="9.0" fill="#E75B12" stroke="#FFFFFF" stroke-width="4.0" />
+  
+  <!-- Abutment ground curve and base line -->
+  <path d="M36 167 Q128 225 220 167" fill="none" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="36" y1="167" x2="220" y2="167" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" />
+</svg>

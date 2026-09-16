@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="PRESFOR - Icono de ingeniería civil">
+  <title>PRESFOR - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <path d="M28 63 H228 V171 H28 Z" fill="#12679E" stroke="#38BDF8" stroke-width="5.0" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M38 93 Q128 205 218 93" fill="none" stroke="#E75B12" stroke-width="7.0" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M38 93 L52 73 L52 113 Z M218 93 L204 73 L204 113 Z" fill="#E75B12" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="28" y1="51" x2="28" y2="181" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  <line x1="228" y1="51" x2="228" y2="181" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  <line x1="22" y1="116" x2="47" y2="116" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" />
+  <polygon points="67.0,116.0 45.0,127.83 45.0,104.17" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="234" y1="116" x2="209" y2="116" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" />
+  <polygon points="189.0,116.0 211.0,104.17 211.0,127.83" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="47" y1="171" x2="209" y2="171" stroke="#38BDF8" stroke-width="4.0" stroke-linecap="round" />
+</svg>
