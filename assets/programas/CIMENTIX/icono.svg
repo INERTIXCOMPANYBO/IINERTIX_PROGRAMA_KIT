@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="ZMULTI - Icono de ingeniería civil">
+  <title>ZMULTI - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <path d="M27 130 H229 V196 H27 Z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="52" y="62" width="42" height="68" rx="0" fill="#38BDF8" stroke="#FFFFFF" stroke-width="4" />
+  <rect x="161" y="43" width="42" height="87" rx="0" fill="#38BDF8" stroke="#FFFFFF" stroke-width="4" />
+  <line x1="73" y1="25" x2="73" y2="39" stroke="#E75B12" stroke-width="5" stroke-linecap="round" />
+  <polygon points="73.0,57.0 62.25,37.0 83.75,37.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="182" y1="10" x2="182" y2="16" stroke="#E75B12" stroke-width="7" stroke-linecap="round" />
+  <polygon points="182.0,38.0 169.1,14.0 194.9,14.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="43" y1="178" x2="213" y2="178" stroke="#E75B12" stroke-width="5" stroke-linecap="round" />
+  <circle cx="51" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="78" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="105" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="132" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="159" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="186" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <circle cx="213" cy="178" r="4.5" fill="#FFFFFF" stroke="none" stroke-width="0" />
+  <line x1="128" y1="70" x2="128" y2="99" stroke="#E75B12" stroke-width="6" stroke-linecap="round" />
+  <polygon points="128.0,119.0 116.18,97.0 139.82,97.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <!-- Contact pressure parabola corrected to Q128 236 to eliminate boundary collision -->
+  <path d="M34 205 Q128 236 222 205" fill="none" stroke="#E75B12" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="27" y1="205" x2="229" y2="205" stroke="#FFFFFF" stroke-width="4.0" stroke-linecap="round" />
+</svg>

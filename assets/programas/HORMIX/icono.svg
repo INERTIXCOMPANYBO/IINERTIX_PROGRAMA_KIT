@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="HORMIX - Icono de ingeniería civil">
+  <title>HORMIX - Icono de ingeniería civil</title>
+  <rect x="4" y="4" width="248" height="248" fill="#0A1C2E" stroke="#E75B12" stroke-width="8" rx="0" ry="0" />
+  <ellipse cx="128" cy="68" rx="88" ry="22" fill="#12679E" stroke="#38BDF8" stroke-width="5.5" />
+  <path d="M40 68 V186 C40 214 216 214 216 186 V68" fill="#12679E" stroke="#38BDF8" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M40 186 C40 214 216 214 216 186" fill="none" stroke="#38BDF8" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Concrete shear failure fracture line -->
+  <path d="M72 86 L134 130 L118 147 L184 188" fill="none" stroke="#E75B12" stroke-width="7.0" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Compression plates -->
+  <line x1="32" y1="36" x2="224" y2="36" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  <line x1="32" y1="220" x2="224" y2="220" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" />
+  
+  <!-- Load vectors -->
+  <line x1="128" y1="12" x2="128" y2="26" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" />
+  <polygon points="128.0,44.0 117.25,24.0 138.75,24.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+  <line x1="128" y1="244" x2="128" y2="230" stroke="#E75B12" stroke-width="6.0" stroke-linecap="round" />
+  <polygon points="128.0,212.0 138.75,232.0 117.25,232.0" fill="#E75B12" stroke="none" stroke-width="0" stroke-linejoin="round" />
+</svg>
