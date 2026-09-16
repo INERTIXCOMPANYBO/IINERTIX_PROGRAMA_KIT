@@ -1,0 +1,1412 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Suite oficial de 40 programas profesionales de ingeniería civil y estructural para calculadora gráfica HP Prime G2.">
+  <title>HPR PRIME | Suite de 40 Programas de Ingeniería</title>
+
+  <!-- Tipografía Poppins local (autónoma, 100% offline) -->
+  <link rel="stylesheet" href="assets/poppins.css">
+
+  <style>
+    :root {
+      --ink: #071326;
+      --navy: #0b1c35;
+      --navy-2: #102b50;
+      --navy-dark: #06111e;
+      --orange: #f26722;
+      --orange-2: #ff9a55;
+      --orange-glow: rgba(242, 103, 34, 0.28);
+      --paper: #f7f8f6;
+      --card-bg: #ffffff;
+      --muted: #5b697a;
+      --line: #dce3e8;
+      --shadow: 0 16px 45px rgba(7, 19, 38, 0.08);
+      --shadow-hover: 0 24px 55px rgba(242, 103, 34, 0.18);
+      --max: 1260px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: auto; }
+
+    /* LOGO FLOTANTE ROTANDO DE IZQUIERDA A DERECHA (INERTIX ORIGINAL) */
+    .floating-logo {
+      position: fixed;
+      left: clamp(16px, 4vw, 64px);
+      bottom: clamp(18px, 5vh, 48px);
+      z-index: 99;
+      width: clamp(90px, 10vw, 135px);
+      pointer-events: none;
+      will-change: transform;
+      animation: logoTravel var(--logo-duration, 12s) linear infinite;
+      animation-iteration-count: infinite;
+      animation-play-state: running;
+    }
+    .floating-logo img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 12px 16px rgba(7,19,38,.24));
+    }
+    @keyframes logoTravel {
+      0% { transform: translate3d(0,0,0) rotate(360deg); }
+      52% { transform: translate3d(var(--travel, 600px),0,0) rotate(1440deg); }
+      70% { transform: translate3d(var(--travel, 600px),0,0) rotate(1440deg); }
+      78% { transform: translate3d(var(--travel, 600px),0,0) rotate(1440deg); }
+      96% { transform: translate3d(0,0,0) rotate(1440deg); }
+      100% { transform: translate3d(0,0,0) rotate(1440deg); }
+    }
+
+    /* Barra de anuncio superior */
+    .announcement {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      font-weight: 600;
+      font-size: .84rem;
+      padding: 10px 16px;
+      letter-spacing: .02em;
+    }
+    .announcement b { color: var(--orange-2); font-weight: 700; }
+
+    /* Header Sticky con efecto vidrio */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247, 248, 246, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(220, 227, 232, 0.85);
+      transition: all .3s;
+    }
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: .02em;
+      color: var(--navy);
+    }
+    .brand-logo-img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      transition: transform .3s;
+    }
+    .brand:hover .brand-logo-img {
+      transform: rotate(-6deg) scale(1.06);
+    }
+    .brand span.prime {
+      color: var(--orange);
+    }
+    .brand-badge-hw {
+      background: #eef3f7;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #d5e0e8;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #526174;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+    .menu a:hover { color: var(--orange); }
+
+    /* Botones estilo INERTIX */
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--orange), #e05310);
+      color: #fff;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 24px rgba(242, 103, 34, 0.28);
+      transition: all .25s ease;
+      cursor: pointer;
+      text-align: center;
+      overflow: hidden;
+    }
+    .btn:before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left .6s;
+    }
+    .btn:hover:before { left: 100%; }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(242, 103, 34, 0.38);
+    }
+    .btn.dark {
+      background: linear-gradient(135deg, var(--navy), #122c54);
+      box-shadow: 0 10px 24px rgba(11, 28, 53, 0.25);
+    }
+    .btn.dark:hover {
+      box-shadow: 0 16px 32px rgba(11, 28, 53, 0.38);
+    }
+    .btn.outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--line);
+      box-shadow: none;
+    }
+    .btn.outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: #fff;
+    }
+    .btn.sm {
+      padding: 8px 18px;
+      font-size: .82rem;
+    }
+
+    /* Hero Section con EFECTO LÍQUIDO */
+    .hero {
+      padding: 60px 0 45px;
+      background: radial-gradient(circle at 82% 25%, rgba(242, 103, 34, 0.08) 0%, transparent 45%),
+                  linear-gradient(135deg, #eef5f5, #ffffff 60%, #f4f6f0);
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange);
+      font-weight: 800;
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .eyebrow:before {
+      content: "";
+      width: 24px;
+      height: 3px;
+      border-radius: 3px;
+      background: var(--orange);
+    }
+    h1.liquid-title {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.14;
+      margin-bottom: 18px;
+      letter-spacing: -.03em;
+    }
+    h1.liquid-title em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .hero p.lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.62;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      margin-bottom: 26px;
+      max-width: 580px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+    .metric-box b {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--navy);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .metric-box span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Card Visual Hero Preview */
+    .hero-preview-card {
+      background: var(--navy);
+      border-radius: 22px;
+      padding: 22px;
+      color: #fff;
+      box-shadow: 0 25px 60px rgba(7, 19, 38, 0.22);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-preview-card:before {
+      content: "";
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .preview-tag {
+      background: rgba(242, 103, 34, 0.2);
+      color: var(--orange-2);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .preview-screen {
+      background: #000;
+      border-radius: 10px;
+      padding: 6px;
+      border: 1.5px solid #22374e;
+      margin-bottom: 12px;
+    }
+    .preview-screen img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      border-radius: 4px;
+    }
+    .preview-desc {
+      font-size: 0.83rem;
+      color: #b0c2d4;
+      line-height: 1.5;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+    }
+
+    /* Sección Catálogo */
+    .catalog-section {
+      padding: 60px 0 90px;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 35px auto;
+    }
+    .section-header h2.liquid-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 12px;
+      letter-spacing: -.03em;
+    }
+    .section-header h2.liquid-title em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .section-header p {
+      color: var(--muted);
+      font-size: 0.96rem;
+      text-align: center;
+    }
+
+    /* 3. Panel de Control: Buscador y Filtros Centrados y Balanceados */
+    .controls-panel {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(7, 19, 38, 0.05);
+      border: 1px solid var(--line);
+      margin-bottom: 35px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .search-row {
+      width: 100%;
+      max-width: 660px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .search-input-wrap {
+      flex: 1;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 12px 18px 12px 42px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.94rem;
+      color: var(--ink);
+      background: #fafbfc;
+      transition: all .2s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(242, 103, 34, 0.12);
+    }
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8c9ba5;
+      font-size: 1.05rem;
+    }
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+    }
+    .filter-tag {
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: #f0f4f8;
+      color: var(--muted);
+      border: 1px solid #dce5ee;
+      cursor: pointer;
+      transition: all .2s ease;
+      white-space: nowrap;
+    }
+    .filter-tag:hover {
+      background: #e2ebf3;
+      color: var(--navy);
+      border-color: #cbd8e5;
+      transform: translateY(-1px);
+    }
+    .filter-tag.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(11, 28, 53, 0.2);
+    }
+
+    /* 4. Grid de Tarjetas Totalmente Responsivo */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    /* Tarjeta de Programa (Sin ID visible en cabecera, con texto justificado) */
+    .prog-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      position: relative;
+    }
+    .prog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(242, 103, 34, 0.4);
+    }
+
+    .prog-card-top {
+      padding: 20px 20px 14px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border-bottom: 1px solid #f2f5f8;
+    }
+    .prog-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: #0A1C2E;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+    .prog-header-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .prog-name {
+      display: inline-block;
+      position: relative;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      cursor: pointer;
+    }
+    .prog-subtitulo {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.35;
+      margin-top: 3px;
+    }
+
+    /* Chips Técnicos en Tarjeta */
+    .prog-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 20px 0 20px;
+    }
+    .tech-chip {
+      font-size: 0.71rem;
+      font-weight: 700;
+      color: var(--navy-2);
+      background: #eaf1f7;
+      border: 1px solid #d0e0ee;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: .02em;
+    }
+
+    .prog-card-body {
+      padding: 14px 20px;
+      flex: 1;
+    }
+    
+    /* 1. Descripción Justificada con Excelente Legibilidad */
+    .prog-desc {
+      font-size: 0.84rem;
+      color: #334155;
+      line-height: 1.6;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      margin-bottom: 14px;
+    }
+
+    /* Captura con Leyenda Explicativa */
+    .prog-screen-block {
+      margin-bottom: 14px;
+    }
+    .prog-screen-caption {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      color: var(--navy);
+      background: #f1f5f9;
+      padding: 5px 10px;
+      border-radius: 6px 6px 0 0;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
+    }
+    .prog-screen-caption span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+    .prog-screen-preview {
+      background: #0b1c35;
+      padding: 5px;
+      border-radius: 0 0 8px 8px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      border-top: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .prog-screen-preview img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      border-radius: 2px;
+      transition: transform .25s ease;
+    }
+    .prog-screen-preview:hover img {
+      transform: scale(1.02);
+    }
+    .screen-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(7, 19, 38, 0.88);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Módulos Principales */
+    .prog-modules-header {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prog-modules-header:after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .prog-modules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .prog-modules-list li {
+      font-size: 0.78rem;
+      color: #475569;
+      line-height: 1.42;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .prog-modules-list li:before {
+      content: "▪";
+      color: var(--orange);
+      font-size: 0.85rem;
+      line-height: 1.1;
+      flex-shrink: 0;
+    }
+
+    /* Footer de Tarjeta con CTAs */
+    .prog-card-footer {
+      padding: 12px 20px;
+      background: #fafbfc;
+      border-top: 1px solid #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .btn-card-primary {
+      background: linear-gradient(135deg, var(--navy), #16365c);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+    .btn-card-primary:hover {
+      background: var(--navy-2);
+      transform: translateY(-1px);
+    }
+    .btn-card-wa {
+      background: linear-gradient(135deg, #25D366, #1fa851);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .btn-card-wa:hover {
+      background: #1ebc57;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.28);
+    }
+
+    /* 2. Ficha Técnica (Modal / Lightbox) Limpio, Técnico y Distribuido */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 19, 38, 0.80);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 960px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      animation: popIn .22s ease-out;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f1f5f9;
+      border: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      transition: all .2s;
+      z-index: 10;
+    }
+    .modal-close:hover {
+      background: var(--orange);
+      color: #fff;
+    }
+
+    /* Cabecera del Modal con ID prominente */
+    .modal-header-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1.5px solid #eef2f6;
+      padding-right: 40px;
+    }
+    .modal-icon-img {
+      width: 62px;
+      height: 62px;
+      border-radius: 12px;
+      background: #0A1C2E;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .modal-id-pill {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #ffffff;
+      background: var(--navy);
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-family: monospace;
+      letter-spacing: .05em;
+    }
+    .modal-title-wrap h3 {
+      font-size: 1.65rem;
+      color: var(--navy);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .modal-subtitulo {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .modal-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    /* Layout en 2 Columnas de la Ficha Técnica */
+    .modal-body-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .modal-section-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-section-title:after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .modal-desc-box {
+      color: #1e293b;
+      font-size: 0.88rem;
+      line-height: 1.66;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      background: #f8fafc;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border-left: 3px solid var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .modal-modules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+    .modal-modules-list li {
+      font-size: 0.84rem;
+      color: #334155;
+      line-height: 1.48;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px dashed #edf2f7;
+    }
+    .modal-modules-list li:last-child {
+      border-bottom: none;
+    }
+    .modal-modules-list li span.check {
+      color: var(--orange);
+      font-weight: 800;
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+
+    /* Columna de Capturas de Pantalla */
+    .modal-screens-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-screen-card {
+      background: #0b1c35;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #233b59;
+      box-shadow: 0 8px 20px rgba(7, 19, 38, 0.15);
+    }
+    .modal-screen-tag {
+      background: #10243a;
+      padding: 6px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #94a3b8;
+      border-bottom: 1px solid #22374e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-screen-tag span.badge {
+      background: rgba(242, 103, 34, 0.2);
+      color: var(--orange-2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+    }
+    .modal-screen-img-wrap {
+      padding: 6px;
+    }
+    .modal-screen-img-wrap img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      border-radius: 4px;
+    }
+
+    .modal-footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1.5px solid #eef2f6;
+      padding-top: 18px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .modal-guide-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Footer General */
+    footer.site-footer {
+      background: var(--navy-dark);
+      color: #94a3b8;
+      padding: 55px 0 30px;
+      border-top: 3px solid var(--orange);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 35px;
+    }
+    .footer-col h4 {
+      color: #fff;
+      font-size: 0.96rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .footer-col p {
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+    .footer-bottom {
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    /* Reglas Responsivas Fluidas (Media Pantalla, Tablets y Móviles) */
+    @media (max-width: 1100px) {
+      .programs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero-inner {
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+      .hero-preview-card {
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .hero-copy {
+        text-align: center;
+      }
+      .hero-copy p.lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-metrics {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .modal-body-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-screens-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .programs-grid {
+        grid-template-columns: 1fr;
+      }
+      .menu {
+        display: none;
+      }
+      .modal-screens-col {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .modal-card {
+        padding: 20px;
+      }
+      .modal-header-box {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .floating-logo {
+        width: 85px;
+        bottom: 12px;
+        left: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Anuncio superior -->
+  <div class="announcement">
+    🚀 <b>SUITE DE CÁLCULO PROFESIONAL</b> — 40 programas optimizados para <b>HP Prime G2</b> con verificación normativa.
+  </div>
+
+  <!-- Header Sticky con logo de INERTIX -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#inicio">
+        <img src="assets/logo_inertix_transparent.png" alt="INERTIX Logo" class="brand-logo-img">
+        <span>HPR <span class="prime">PRIME</span></span>
+        <span class="brand-badge-hw">HP PRIME G2</span>
+      </a>
+      <nav class="menu">
+        <a href="#catalogo">Catálogo (40)</a>
+        <a href="#especialidades">Especialidades</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div>
+        <a class="btn sm" href="https://wa.me/59169666824?text=Hola,%20solicito%20información%20del%20catálogo%20HPR%20Prime" target="_blank" rel="noopener">
+          WhatsApp Oficial
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGO FLOTANTE ROTANDO DE IZQUIERDA A DERECHA (INERTIX ORIGINAL) -->
+  <div class="floating-logo" aria-hidden="true">
+    <img src="assets/logo_inertix_transparent.png" alt="">
+  </div>
+
+  <!-- Hero Section con EFECTO LÍQUIDO REUTILIZADO -->
+  <section class="hero" id="inicio">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Ingeniería Civil • Estructural • Geotécnica</span>
+        <!-- Título con efecto displacement WebGL líquido -->
+        <h1 class="liquid-title">40 Programas.<br>Tu Cálculo de Obra.<br><em>En tu HP Prime.</em></h1>
+        <p class="lead">
+          Una colección completa de herramientas profesionales de cálculo matricial, diseño de hormigón armado, estructuras metálicas, mecánica de suelos e hidráulica en tu calculadora táctil.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#catalogo">Explorar los 40 Programas</a>
+          <a class="btn outline" href="https://wa.me/59169666824?text=Hola,%20quiero%20conocer%20el%20paquete%20completo%20de%2040%20programas%20HP%20Prime" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric-box">
+            <b>40</b>
+            <span>Programas Verificados</span>
+          </div>
+          <div class="metric-box">
+            <b>200</b>
+            <span>Módulos de Cálculo</span>
+          </div>
+          <div class="metric-box">
+            <b>100%</b>
+            <span>Táctil HP Prime G2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta preview interactiva -->
+      <div class="hero-preview-card">
+        <div class="preview-header">
+          <span style="font-weight: 800; font-size: 1rem;">ACERIX</span>
+          <span class="preview-tag">AISC 360 LRFD/ASD</span>
+        </div>
+        <div class="preview-screen">
+          <img src="assets/programas/ACERIX/capturas/001_02.png" alt="Captura ACERIX">
+        </div>
+        <p class="preview-desc">
+          Dimensionamiento y verificación de miembros de acero bajo tracción, compresión con pandeo y flexocompresión con ratio Demanda/Capacidad en pantalla.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Catálogo Completo -->
+  <section class="catalog-section" id="catalogo">
+    <div class="wrap">
+      <div class="section-header">
+        <span class="eyebrow" id="especialidades">Catálogo de Productos</span>
+        <!-- Título con efecto líquido de agua -->
+        <h2 class="liquid-title">Catálogo Oficial de <em>40 Programas.</em></h2>
+        <p>Explora cada solución con su ficha técnica, chips de normativa, módulos específicos y capturas de pantalla reales en la HP Prime.</p>
+      </div>
+
+      <!-- 3. Panel de Control: Buscador y Filtros Centrados y Balanceados -->
+      <div class="controls-panel">
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre (ej. DINAMIX, SUELIX), normativa (ej. AISC, ACI) o función..." autocomplete="off">
+          </div>
+        </div>
+        <div class="filter-tags">
+          <button class="filter-tag active" data-filter="all">Todos (40)</button>
+          <button class="filter-tag" data-filter="estructuras">Estructuras y Concreto</button>
+          <button class="filter-tag" data-filter="matricial">Matricial y Dinámica 3D</button>
+          <button class="filter-tag" data-filter="geotecnia">Geotecnia y Suelos</button>
+          <button class="filter-tag" data-filter="hidraulica">Hidráulica y Drenaje</button>
+          <button class="filter-tag" data-filter="vias">Vías y Topografía</button>
+          <button class="filter-tag" data-filter="costos">Costos y Gestión</button>
+        </div>
+      </div>
+
+      <!-- 4. Grid de Tarjetas Reestructuradas (Sin ID visible en la tarjeta resumida) -->
+      <div class="programs-grid" id="programsGrid">
+        <!-- Renderizado dinámico vía JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Modal Detallado de Producto: Ficha Técnica 2-Columnas, Limpia y con ID Visible -->
+  <div class="modal-overlay" id="progModal" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      
+      <!-- Encabezado de Ficha Técnica -->
+      <div class="modal-header-box">
+        <img id="modalIcon" src="" alt="Icono" class="modal-icon-img">
+        <div class="modal-title-wrap">
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 2px;">
+            <!-- ID VISIBLE AQUÍ EN LA FICHA TÉCNICA -->
+            <span id="modalId" class="modal-id-pill"></span>
+          </div>
+          <h3 id="modalTitle"></h3>
+          <p id="modalSubtitulo" class="modal-subtitulo"></p>
+          <div class="modal-chips-wrap" id="modalChipsRow"></div>
+        </div>
+      </div>
+
+      <!-- Cuerpo en 2 Columnas de Ficha Técnica -->
+      <div class="modal-body-grid">
+        <!-- Columna Izquierda: Información y Módulos -->
+        <div>
+          <div class="modal-section-title">Descripción del Programa</div>
+          <div id="modalDesc" class="modal-desc-box"></div>
+
+          <div class="modal-section-title">Módulos y Capacidades Principales</div>
+          <ul id="modalFuncs" class="modal-modules-list"></ul>
+
+          <div class="modal-section-title">Especificaciones Técnicas</div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px; font-size: 0.8rem; color: #475569; display: grid; gap: 6px;">
+            <div><strong>• Compatibilidad:</strong> HP Prime G1 / G2 / Emulador Virtual PC</div>
+            <div><strong>• Formato:</strong> Aplicación .hpappdir nativa</div>
+            <div id="modalGuia" style="color: var(--navy); font-weight: 600;"></div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Capturas de Pantalla de la HP Prime -->
+        <div class="modal-screens-col">
+          <div class="modal-section-title">Evidencia Visual en Calculadora</div>
+          <div id="modalScreens" style="display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+      </div>
+
+      <!-- Footer del Modal con Acción de Contacto -->
+      <div class="modal-footer-bar">
+        <span style="font-size: 0.82rem; color: var(--muted);">Atención técnica directa por WhatsApp con entrega de archivos y guía.</span>
+        <a id="modalWaBtn" class="btn" href="" target="_blank" rel="noopener">
+          Solicitar Información Técnica
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer General -->
+  <footer class="site-footer" id="contacto">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand" style="color: #fff; margin-bottom: 12px;">
+            <img src="assets/logo_inertix_transparent.png" alt="INERTIX Logo" style="width: 36px; height: 36px; filter: brightness(1.2);">
+            <span>HPR <span class="prime">PRIME</span></span>
+          </div>
+          <p>
+            Suite especializada de software técnico para ingenieros civiles, proyectistas y calculistas. Modelado, análisis y verificación en movilidad.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Plataforma</h4>
+          <p>• HP Prime Graphing Calculator G1 / G2</p>
+          <p>• HP Prime Virtual Calculator (PC/Windows)</p>
+          <p>• HP Prime Lite / Pro (Android & iOS)</p>
+        </div>
+        <div class="footer-col">
+          <h4>Atención & Pedidos</h4>
+          <p>WhatsApp: +591 69666824</p>
+          <p>Entrega inmediata de archivos .hpappdir y guías de uso completas.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 INERTIX • HPR Prime Engineering Suite. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Datos y Lógica JavaScript -->
+  <script>
+    const CATALOGO = {"001": {"id": "001", "nombre": "ACERIX", "codigo_corto": "ACERIX", "icono": "assets/programas/ACERIX/icono.png", "icono_svg": "assets/programas/ACERIX/icono.svg", "capturas": ["assets/programas/ACERIX/capturas/001_01.png", "assets/programas/ACERIX/capturas/001_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/ACERIX.hpappdir/guia/GUIA_ACERIX.pdf", "descripcion": "ACERIX es una aplicación especializada para HP Prime orientada al dimensionamiento y verificación de miembros estructurales de acero según las especificaciones AISC 360 por los métodos LRFD y ASD. Su finalidad principal es resolver estados límite bajo tracción, compresión con pandeo flexional o torsional, flexión simple, corte, flexocompresión combinada y diseño de conexiones empernadas, soldadas y placas base.", "funciones": ["Diseño y revisión de miembros bajo tracción y compresión axial considerando pandeo por flexión y flexotorsión según AISC 360.", "Verificación de perfiles sometidos a flexión en eje fuerte y débil, evaluando pandeo lateral torsional y plastificación.", "Evaluación de interacción de flexocompresión biaxial mediante las fórmulas de interacción AISC H1 con cálculo de ratios demanda/capacidad.", "Cálculo de uniones estructurales empernadas, cordones de soldadura de filete y dimensionamiento de placas base con pernos de anclaje.", "Gestión de perfiles estándar W, H, C, L, 2L, tubulares HSS rectangulares y circulares, además de secciones paramétricas personalizadas."], "mas_informacion": "Fotos del programa/ACERIX.hpappdir/guia/GUIA_ACERIX.pdf", "subtitulo": "Dimensionamiento y verificación de perfiles de acero estructural", "chips": ["AISC 360", "LRFD / ASD", "Pandeo E3"], "desc_tecnica": "ACERIX permite dimensionar y verificar miembros de acero estructural bajo tracción, compresión con pandeo flexional y flexotorsión, flexión biaxial, corte y conexiones soldadas/empernadas según AISC 360. Evalúa en tiempo real los ratios demanda/capacidad (D/C) para perfiles estándar W, H, C, L, HSS y paramétricos.", "modulos": ["Miembros en tracción y compresión axial con pandeo AISC Cap. E", "Flexión en eje mayor y menor con pandeo lateral-torsional (PLT)", "Interacción de flexocompresión biaxial según fórmulas AISC H1", "Cálculo de uniones empernadas, soldadura de filete y placas base", "Catálogo paramétrico de perfiles estándar W, H, C, L y tubulares HSS"], "captura_label": "Pantalla HP Prime: Curva de pandeo Fcr y ratio D/C (AISC E3)"}, "002": {"id": "002", "nombre": "VOLUMIX", "codigo_corto": "AHV", "icono": "assets/programas/VOLUMIX/icono.png", "icono_svg": "assets/programas/VOLUMIX/icono.svg", "capturas": ["assets/programas/VOLUMIX/capturas/002_01.png", "assets/programas/VOLUMIX/capturas/002_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/VOLUMIX.hpappdir/guia/GUIA_VOLUMIX.pdf", "descripcion": "VOLUMIX es una herramienta de ingeniería vial para HP Prime diseñada para el cálculo y balance del movimiento de tierras en proyectos carreteros. Permite procesar progresivas, terreno natural, rasante y sección tipo para determinar áreas de corte y relleno, volúmenes compensados, ordenadas de la curva de masas y distancias medias de transporte hacia botaderos o préstamos.", "funciones": ["Definición geométrica de estaciones de carretera, perfiles de terreno natural y rasante proyectada.", "Configuración paramétrica de la sección tipo con anchos de calzada, bermas, cunetas y taludes de corte y terraplén.", "Cálculo de áreas transversales por métodos geométricos y cálculo de volúmenes entre progresivas mediante el método de áreas medias.", "Aplicación de coeficientes de abundamiento y compactación para la obtención de volúmenes netos y acumulados.", "Trazado y balanceo de la curva de masas con determinación de líneas de compensación, puntos de paso y distancias de acarreo."], "mas_informacion": "Fotos del programa/VOLUMIX.hpappdir/guia/GUIA_VOLUMIX.pdf", "subtitulo": "Movimiento de tierras y áreas de secciones transversales", "chips": ["Topografía", "Corte y Relleno", "Áreas Medias"], "desc_tecnica": "VOLUMIX calcula con alta precisión áreas de corte y terraplén a partir de coordenadas topográficas de terreno y rasante, integrando volúmenes de movimiento de tierras mediante el método de las áreas medias con coeficientes de abundamiento y esponjamiento.", "modulos": ["Cálculo analítico de áreas de corte y relleno por coordenadas", "Integración de volúmenes por método de áreas medias", "Aplicación de factores de abundamiento y compactación", "Balance de tierras y distancias medias de transporte", "Generación de reportes de cubicación por progresiva"], "captura_label": "Pantalla HP Prime: Perfil transversal con cotas de corte y relleno"}, "003": {"id": "003", "nombre": "APUX", "codigo_corto": "APUX", "icono": "assets/programas/APUX/icono.png", "icono_svg": "assets/programas/APUX/icono.svg", "capturas": ["assets/programas/APUX/capturas/003_01.png", "assets/programas/APUX/capturas/003_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/APUX.hpappdir/guia/GUIA_APUX.pdf", "descripcion": "APUX es un sistema integral de costos y presupuestos para HP Prime orientado a la elaboración sistemática de análisis de precios unitarios en ingeniería de construcción. Su objetivo principal es estructurar bancos de recursos, calcular costos directos de materiales, mano de obra y equipo, y aplicar indirectos para obtener presupuestos generales consolidados.", "funciones": ["Administración de banco de insumos con categorización de materiales, cuadrillas de mano de obra y maquinaria.", "Cálculo analítico del costo unitario directo por rubro integrando rendimientos diarios y consumos unitarios.", "Tratamiento paramétrico de herramientas menores, beneficios sociales y gastos generales de obra.", "Aplicación de factores porcentuales de costos indirectos, utilidad contractual e impuestos de ley.", "Generación y consolidación del presupuesto general con análisis de sensibilidad de precios e incidencias de insumos."], "mas_informacion": "Fotos del programa/APUX.hpappdir/guia/GUIA_APUX.pdf", "subtitulo": "Análisis de precios unitarios y presupuestos de obra", "chips": ["Costos y APU", "Rendimientos", "Presupuestos"], "desc_tecnica": "APUX estructura y calcula análisis de precios unitarios (APU) desglosando mano de obra con leyes sociales, materiales con mermas, equipos con desgaste horario y gastos generales, generando presupuestos consolidados de obra civil en campo.", "modulos": ["Desglose de APU: Mano de obra, materiales, equipo y subcontratos", "Cálculo automático de cargas y beneficios sociales (leyes sociales)", "Costos horarios de maquinaria y coeficientes de desgaste", "Determinación de gastos generales, utilidad e impuestos de ley", "Consolidación de presupuesto general y resumen de insumos"], "captura_label": "Pantalla HP Prime: Matriz de desglose de precio unitario"}, "004": {"id": "004", "nombre": "ESPECTRIX", "codigo_corto": "ASEST", "icono": "assets/programas/ESPECTRIX/icono.png", "icono_svg": "assets/programas/ESPECTRIX/icono.svg", "capturas": ["assets/programas/ESPECTRIX/capturas/004_01.png", "assets/programas/ESPECTRIX/capturas/004_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/ESPECTRIX.hpappdir/guia/GUIA_ESPECTRIX.pdf", "descripcion": "ESPECTRIX es una aplicación de ingeniería sismorresistente para HP Prime orientada a la determinación del cortante basal estático y espectros de diseño según normativas sismorresistentes. Permite parametrizar zonas sísmicas, perfiles estratigráficos de suelo, factores de importancia e irregularidad para distribuir fuerzas laterales por nivel y verificar derivas de entrepiso.", "funciones": ["Generación de espectros de diseño elásticos e inelásticos a partir de parámetros de aceleración espectral y suelo.", "Determinación del coeficiente sísmico y cortante basal total mediante el método de la fuerza lateral equivalente.", "Distribución vertical de fuerzas sísmicas por nivel en función de masas, alturas y periodos fundamentales.", "Modelado de irregularidades estructurales en planta y altura con factores de reducción de respuesta R.", "Cálculo y verificación de derivas laterales de entrepiso frente a los límites admisibles normativos."], "mas_informacion": "Fotos del programa/ESPECTRIX.hpappdir/guia/GUIA_ESPECTRIX.pdf", "subtitulo": "Generación de espectros de diseño y respuesta sísmica", "chips": ["Ingeniería Sísmica", "Normas Sísmicas", "Espectros Sa vs T"], "desc_tecnica": "ESPECTRIX genera espectros de respuesta elásticos e inelásticos de aceleraciones, velocidades y desplazamientos a partir de parámetros geotécnicos de sitio, zonificación sísmica y factores de ductilidad según normativas internacionales.", "modulos": ["Espectros de pseudoaceleración elástica según periodo estructural", "Parámetros de amplificación de suelo y factores de importancia", "Reducción por ductilidad y amortiguamiento no convencional", "Graficación interactiva Sa vs T con localización del periodo propio", "Exportación de ordenadas espectrales para análisis dinámico"], "captura_label": "Pantalla HP Prime: Espectro de diseño con meseta de aceleración máxima"}, "005": {"id": "005", "nombre": "CANALIX", "codigo_corto": "CANAL", "icono": "assets/programas/CANALIX/icono.png", "icono_svg": "assets/programas/CANALIX/icono.svg", "capturas": ["assets/programas/CANALIX/capturas/005_01.png", "assets/programas/CANALIX/capturas/005_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/CANALIX.hpappdir/guia/GUIA_CANALIX.pdf", "descripcion": "CANALIX es un software de hidráulica para HP Prime dedicado al análisis del flujo en canales abiertos en régimen uniforme, crítico y variado mediante la ecuación de Manning. Su objetivo es calcular tirantes normales y críticos, capacidad de conducción, parámetros de resalto hidráulico y dimensionamiento de secciones óptimas de máxima eficiencia hidráulica.", "funciones": ["Cálculo de tirante normal y tirante crítico para secciones rectangulares, trapezoidales, triangulares, circulares y parabólicas.", "Determinación de caudal, velocidad media, pendiente de energía y energía específica mediante la formulación de Manning.", "Análisis del resalto hidráulico con cálculo de tirantes conjugados, longitud del resalto y disipación de energía.", "Dimensionamiento automático de geometrías bajo el criterio de máxima eficiencia hidráulica y mínimo perímetro mojado.", "Identificación del régimen de flujo subcrítico, crítico o supercrítico según el número de Froude."], "mas_informacion": "Fotos del programa/CANALIX.hpappdir/guia/GUIA_CANALIX.pdf", "subtitulo": "Cálculo hidráulico de canales abiertos y flujo graduado", "chips": ["Manning", "Flujo Crítico", "Energía Específica"], "desc_tecnica": "CANALIX resuelve problemas de flujo uniforme y gradualmente variado en canales de sección trapecial, rectangular, triangular, parabólica y circular por la ecuación de Manning, calculando tirante normal, tirante crítico, energía específica y resaltos hidráulicos.", "modulos": ["Resolución de tirante normal y crítico por métodos iterativos", "Secciones trapeciales, rectangulares, circulares y compuestas", "Diagramas de energía específica y fuerza específica", "Cálculo de curvas de remanso (M1, M2, S1, S2, etc.)", "Dimensionamiento de cuencos de disipación y resalto hidráulico"], "captura_label": "Pantalla HP Prime: Geometría de sección de canal y parámetros hidráulicos"}, "006": {"id": "006", "nombre": "CARREX", "codigo_corto": "CARVOL", "icono": "assets/programas/CARREX/icono.png", "icono_svg": "assets/programas/CARREX/icono.svg", "capturas": ["assets/programas/CARREX/capturas/006_01.png", "assets/programas/CARREX/capturas/006_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/CARREX.hpappdir/guia/GUIA_CARREX.pdf", "descripcion": "CARREX es un programa de diseño geométrico de carreteras para HP Prime enfocado en el cálculo y replanteo del alineamiento horizontal y vertical de vías. Su propósito principal es resolver curvas circulares simples, curvas con espirales de transición (clotoides) y curvas verticales parabólicas simétricas y asimétricas con tablas completas de replanteo.", "funciones": ["Cálculo de curvas circulares horizontales simples con elementos geométricos notables (PC, PI, PT, cuerda larga, externa).", "Diseño de curvas de transición mediante espirales de Euler (clotoides) con cálculo de parámetros, desvíos y sobreanchos.", "Generación de tablas detalladas de replanteo topográfico por deflexiones angulares y coordenadas cartesianas.", "Diseño de acuerdos verticales parabólicos simétricos y asimétricos evaluando pendientes de entrada, salida y cotas de rasante.", "Verificación de velocidades de diseño, radios mínimos de curvatura y distancias de visibilidad de parada."], "mas_informacion": "Fotos del programa/CARREX.hpappdir/guia/GUIA_CARREX.pdf", "subtitulo": "Diseño geométrico de carreteras y trazado de curvas", "chips": ["Trazado Vial", "Curvas Circulares", "Espirales Clothoide"], "desc_tecnica": "CARREX calcula y replantea alineamientos horizontales y verticales de carreteras según AASHTO, resolviendo curvas circulares simples, compuestas, espirales de transición clotoide y curvas parabólicas verticales con visibilidad de parada.", "modulos": ["Curvas horizontales simples y compuestas con replanteo por cuerdas", "Espirales de transición con variación lineal de aceleración centrífuga", "Cálculo de sobreanchos de calzada y peraltes reglamentarios", "Curvas verticales simétricas y asimétricas con rasantes", "Verificación de distancias de visibilidad de parada y adelantamiento"], "captura_label": "Pantalla HP Prime: Elementos de curva horizontal y progresivas"}, "007": {"id": "007", "nombre": "COLUMNIX", "codigo_corto": "COLUM", "icono": "assets/programas/COLUMNIX/icono.png", "icono_svg": "assets/programas/COLUMNIX/icono.svg", "capturas": ["assets/programas/COLUMNIX/capturas/007_01.png", "assets/programas/COLUMNIX/capturas/007_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/COLUMNIX.hpappdir/guia/GUIA_COLUMNIX.pdf", "descripcion": "COLUMNIX es una herramienta computacional para HP Prime destinada al diseño y verificación de columnas de concreto armado sometidas a flexocompresión uniaxial bajo la norma ACI 318-25. Su finalidad es determinar la capacidad resistente seccional mediante compatibilidad de deformaciones, equilibrio de fuerzas y generación del diagrama de interacción P-M completo.", "funciones": ["Modelado de secciones rectangulares de concreto armado con disposición simétrica o personalizada de varillas de refuerzo.", "Cálculo del bloque equivalente de compresión de Whitney y factor beta-1 conforme a los requisitos del código ACI 318-25.", "Generación del diagrama de interacción P-M nominal y minorado (phi) mediante algoritmo de bisección del eje neutro.", "Determinación de la resistencia axial pura (P0), límite superior de compresión (Pcap) y condición de falla balanceada.", "Evaluación puntual de combinaciones de carga axial y momento flector para verificar la relación demanda/capacidad."], "mas_informacion": "Fotos del programa/COLUMNIX.hpappdir/guia/GUIA_COLUMNIX.pdf", "subtitulo": "Columnas de hormigón armado y flexocompresión biaxial", "chips": ["ACI 318", "Biaxialidad", "Diagrama P-M"], "desc_tecnica": "COLUMNIX diseña y verifica columnas cortas y esbeltas de hormigón armado sometidas a flexocompresión biaxial según ACI 318, construyendo la superficie tridimensional de falla y los diagramas de interacción P-M en ambos ejes ortogonales.", "modulos": ["Diagrama de interacción P-M uniaxial y superficie de falla biaxial", "Método de Bresler y método de contorno de cargas de Parme", "Evaluación de efectos de esbeltez y amplificación de momentos", "Configuración paramétrica de armadura simétrica y perimetral", "Verificación de cuantías mínimas y máximas de diseño ACI 318"], "captura_label": "Pantalla HP Prime: Diagrama de interacción P-M y punto de demanda"}, "008": {"id": "008", "nombre": "LABORIX", "codigo_corto": "CONLAB", "icono": "assets/programas/LABORIX/icono.png", "icono_svg": "assets/programas/LABORIX/icono.svg", "capturas": ["assets/programas/LABORIX/capturas/008_01.png", "assets/programas/LABORIX/capturas/008_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/LABORIX.hpappdir/guia/GUIA_LABORIX.pdf", "descripcion": "LABORIX es una aplicación para HP Prime orientada al procesamiento de ensayos de laboratorio de suelos, agregados y concreto hidráulico. Su finalidad es automatizar el cálculo de curvas granulométricas, módulos de finura, pesos específicos, absorción y control estadístico de resistencia a compresión en probetas cilíndricas según normativas ASTM y AASHTO.", "funciones": ["Análisis granulométrico de agregados finos y gruesos con cálculo de porcentajes retenidos, pasantes y módulo de finura.", "Trazado de curvas granulométricas y verificación frente a husos y límites granulométricos normativos.", "Cálculo de peso específico de masa, peso específico saturado con superficie seca y porcentaje de absorción.", "Determinación de pesos volumétricos sueltos y varillados para dosificación de mezclas.", "Procesamiento y control de rotura de probetas cilíndricas de concreto con cálculo de resistencia media y desviación estándar."], "mas_informacion": "Fotos del programa/LABORIX.hpappdir/guia/GUIA_LABORIX.pdf", "subtitulo": "Procesamiento de ensayos de laboratorio de suelos", "chips": ["Geotecnia", "Proctor y CBR", "Granulometría"], "desc_tecnica": "LABORIX procesa directamente en campo ensayos geotécnicos de laboratorio: curvas granulométricas por tamizado e hidrometría, límites de Atterberg, compactación Proctor Estándar y Modificado, y cálculo de relación de soporte de California (CBR).", "modulos": ["Curva granulométrica con cálculo automático de D10, D30, D60, Cu y Cc", "Determinación de Límite Líquido, Plástico e Índice de Plasticidad", "Curva de compactación Proctor con humedad óptima y densidad seca máxima", "Evaluación del ensayo CBR a diferentes niveles de penetración", "Consolidación unidimensional y permeabilidad en cabeza constante/variable"], "captura_label": "Pantalla HP Prime: Curva Proctor con humedad óptima de compactación"}, "009": {"id": "009", "nombre": "CUBIX", "codigo_corto": "CUBIX", "icono": "assets/programas/CUBIX/icono.png", "icono_svg": "assets/programas/CUBIX/icono.svg", "capturas": ["assets/programas/CUBIX/capturas/009_01.png", "assets/programas/CUBIX/capturas/009_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/CUBIX.hpappdir/guia/GUIA_CUBIX.pdf", "descripcion": "CUBIX es un sistema modular de cómputos métricos para HP Prime concebido para la cuantificación y cubicación precisa de partidas de obra civil y edificación. Su propósito es calcular volúmenes de excavación, hormigones estructurales, áreas de encofrado y cantidades de mampostería con reglas geométricas de descuento de vanos e intersecciones.", "funciones": ["Cuantificación de volúmenes de excavación en zanjas, pozos y explanaciones considerando taludes y esponjamiento.", "Cubicación de elementos de concreto en cimientos, columnas, vigas, losas y muros estructurales.", "Cálculo de áreas de encofrado y desencofrado para diferentes geometrías y elementos de hormigón armado.", "Cómputo de mampostería y tabiquería con aplicación de descuentos automáticos de vanos de puertas y ventanas.", "Organización matricial de partidas con consolidación de resúmenes de cantidades por etapas constructivas."], "mas_informacion": "Fotos del programa/CUBIX.hpappdir/guia/GUIA_CUBIX.pdf", "subtitulo": "Cómputos métricos y cuantificación volumétrica de obra", "chips": ["Metrados", "Cómputos de Obra", "Estructuras"], "desc_tecnica": "CUBIX automatiza la cuantificación métrica de elementos constructivos (excavaciones, hormigón de cimientos, columnas, vigas, losas, muros de mampostería y cubiertas), organizando metrados ordenados por módulos y partidas presupuestarias.", "modulos": ["Cómputo geométrico de movimientos de tierra y excavación", "Volumetría de hormigón para zapatas, columnas, vigas y losas", "Cuantificación de superficies de encofrado y desencofrado", "Metrado de mampostería, revoques, pisos y cubiertas", "Consolidación de planilla de cómputos métricos de proyecto"], "captura_label": "Pantalla HP Prime: Planilla de metrados y volúmenes parciales"}, "010": {"id": "010", "nombre": "DINAMIX", "codigo_corto": "D1GL", "icono": "assets/programas/DINAMIX/icono.png", "icono_svg": "assets/programas/DINAMIX/icono.svg", "capturas": ["assets/programas/DINAMIX/capturas/010_01.png", "assets/programas/DINAMIX/capturas/010_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/DINAMIX.hpappdir/guia/GUIA_DINAMIX.pdf", "descripcion": "DINAMIX es un software de dinámica estructural para HP Prime enfocado en el análisis de sistemas de un grado de libertad (SDOF). Su objetivo principal es calcular la respuesta temporal bajo vibración libre y forzada con amortiguamiento viscoso, resolver registros de aceleración mediante integración numérica paso a paso y construir espectros de respuesta elásticos.", "funciones": ["Cálculo de periodos naturales, frecuencias circulares y coeficientes de amortiguamiento crítico en sistemas 1 GDL.", "Evaluación de la respuesta en vibración libre no amortiguada y subamortiguada bajo condiciones iniciales de desplazamiento y velocidad.", "Análisis de respuesta en estado estacionario y transitorio ante excitaciones armónicas de fuerza y aceleración en la base.", "Integración numérica paso a paso en el dominio del tiempo mediante los métodos de Newmark-beta y diferencias centrales.", "Generación de espectros de respuesta de deformación, pseudo-velocidad y pseudo-aceleración para registros sísmicos."], "mas_informacion": "Fotos del programa/DINAMIX.hpappdir/guia/GUIA_DINAMIX.pdf", "subtitulo": "Dinámica estructural de 1 GDL y respuesta sísmica", "chips": ["SDOF", "Newmark-β", "Espectros"], "desc_tecnica": "DINAMIX analiza sistemas estructurales de un grado de libertad (SDOF) en HP Prime, evaluando vibración libre y forzada, amortiguamiento, respuesta ante excitaciones armónicas e integración temporal paso a paso con Newmark-β. Ideal para dinámica y docencia.", "modulos": ["Vibración libre no amortiguada y amortiguada", "Respuesta a excitación armónica y carga en base", "Integración temporal paso a paso con Newmark-β", "Espectros de respuesta elásticos para acelerogramas", "Parámetros dinámicos del sistema: Tn, ωn y amortiguamiento ξ"], "captura_label": "Vista del módulo: Historial de vibración libre amortiguada"}, "011": {"id": "011", "nombre": "DRENAJIX", "codigo_corto": "DESAG", "icono": "assets/programas/DRENAJIX/icono.png", "icono_svg": "assets/programas/DRENAJIX/icono.svg", "capturas": ["assets/programas/DRENAJIX/capturas/011_01.png", "assets/programas/DRENAJIX/capturas/011_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/DRENAJIX.hpappdir/guia/GUIA_DRENAJIX.pdf", "descripcion": "DRENAJIX es una suite de ingeniería sanitaria para HP Prime orientada al diseño hidráulico de redes de alcantarillado sanitario y drenaje pluvial por gravedad. Su propósito es dimensionar colectores y emisarios empleando la fórmula de Manning, garantizando criterios de velocidades autolimpiantes, tensión tractiva mínima, fórmulas de tiempo de concentración e intensidades de lluvia.", "funciones": ["Cálculo hidráulico de tuberías de alcantarillado en régimen parcialmente lleno mediante relaciones geométricas y tablas de Manning.", "Verificación de velocidades mínimas autolimpiantes, velocidades máximas admisibles y criterios de tensión tractiva.", "Estimación de caudales pluviales de diseño por el Método Racional integrando coeficientes de escorrentía y curvas IDF.", "Cálculo de tiempos de concentración superficial y tiempos de viaje en colectores e interceptores.", "Diseño tramo a tramo de redes colectoras con pendientes topográficas, cotas de solera y comprobación de tirantes."], "mas_informacion": "Fotos del programa/DRENAJIX.hpappdir/guia/GUIA_DRENAJIX.pdf", "subtitulo": "Sistemas de drenaje pluvial y redes de alcantarillado", "chips": ["Drenaje Pluvial", "Método Racional", "Alcantarillado"], "desc_tecnica": "DRENAJIX diseña y revisa redes de alcantarillado sanitario y pluvial por gravedad. Calcula caudales de escorrentía por el Método Racional, pendientes mínimas de autolimpieza, diámetros y velocidades admisibles según Manning.", "modulos": ["Cálculo de caudal pico por el Método Racional", "Dimensionamiento hidráulico de colectores a gravedad por Manning", "Verificación de criterios de velocidad mínima de autolimpieza", "Diseño de sumideros, pozos de visita y caídas de tensión", "Generación de perfiles longitudinales de rasante y tubería"], "captura_label": "Pantalla HP Prime: Parámetros de colector y tirante en tubería circular"}, "012": {"id": "012", "nombre": "ECONOMIX", "codigo_corto": "ECOCIV", "icono": "assets/programas/ECONOMIX/icono.png", "icono_svg": "assets/programas/ECONOMIX/icono.svg", "capturas": ["assets/programas/ECONOMIX/capturas/012_01.png", "assets/programas/ECONOMIX/capturas/012_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/ECONOMIX.hpappdir/guia/GUIA_ECONOMIX.pdf", "descripcion": "ECONOMIX es una calculadora financiera y de evaluación de proyectos para HP Prime orientada a la ingeniería económica. Su finalidad es modelar flujos de caja temporales, resolver equivalencias del valor del dinero en el tiempo y determinar indicadores de viabilidad como el Valor Actual Neto (VAN), Tasa Interna de Retorno (TIR), Costo Anual Equivalente y relación Beneficio/Costo.", "funciones": ["Conversión analítica entre tasas de interés nominales, efectivas, periódicas y continuas con capitalización variable.", "Cálculo de factores de equivalencia financiera (P/F, F/P, P/A, A/P, F/A, A/F, gradientes aritméticos y geométricos).", "Evaluación de rentabilidad de proyectos de inversión mediante Valor Actual Neto (VAN) y Tasa Interna de Retorno (TIR).", "Análisis comparativo de alternativas de inversión mediante el Costo Anual Equivalente (CAE) y relación Beneficio/Costo (B/C).", "Generación y amortización de tablas de deuda bajo sistemas alemán, francés y cuotas con períodos de gracia."], "mas_informacion": "Fotos del programa/ECONOMIX.hpappdir/guia/GUIA_ECONOMIX.pdf", "subtitulo": "Evaluación económica y financiera de proyectos de inversión", "chips": ["Finanzas", "VAN & TIR", "Flujo de Caja"], "desc_tecnica": "ECONOMIX evalúa la viabilidad financiera de proyectos de ingeniería civil y construcción mediante flujos de caja descontados, calculando Valor Actual Neto (VAN), Tasa Interna de Retorno (TIR), Relación Beneficio/Costo (B/C) y Periodo de Recuperación.", "modulos": ["Construcción y análisis de flujos de caja operativos y financieros", "Cálculo de VAN a diferentes tasas de descuento (WACC)", "Determinación de la Tasa Interna de Retorno (TIR y TIRM)", "Relación Beneficio/Costo y análisis de punto de equilibrio", "Análisis de sensibilidad ante variaciones de costos e ingresos"], "captura_label": "Pantalla HP Prime: Indicadores de rentabilidad VAN, TIR y B/C"}, "013": {"id": "013", "nombre": "ESCALIX", "codigo_corto": "ESCALIX", "icono": "assets/programas/ESCALIX/icono.png", "icono_svg": "assets/programas/ESCALIX/icono.svg", "capturas": ["assets/programas/ESCALIX/capturas/013_01.png", "assets/programas/ESCALIX/capturas/013_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/ESCALIX.hpappdir/guia/GUIA_ESCALIX.pdf", "descripcion": "ESCALIX es un programa de diseño estructural para HP Prime especializado en escaleras de concreto armado de uno o varios tramos con descanso. Su función principal es calcular cargas permanentes y sobrecargas, determinar los momentos flectores de diseño y dimensionar las armaduras longitudinales principales y de temperatura cumpliendo los requisitos del código ACI 318.", "funciones": ["Predimensionamiento geométrico de escaleras verificando relaciones de paso y contrapaso mediante la ley de Blondel.", "Análisis de cargas muertas (peso propio, descansos, acabados) y sobrecargas de uso según inclinación del tramo.", "Determinación de diagramas de momentos flectores y fuerzas cortantes en tramos inclinados y descansos horizontales.", "Cálculo del refuerzo longitudinal a flexión para momentos positivos en vano y negativos en apoyos y quiebres.", "Verificación de acero por retracción y temperatura, cuantías mínimas normativas y espesor mínimo por deflexión."], "mas_informacion": "Fotos del programa/ESCALIX.hpappdir/guia/GUIA_ESCALIX.pdf", "subtitulo": "Diseño y armado de escaleras de hormigón armado", "chips": ["ACI 318", "Escaleras H°A°", "Armadura"], "desc_tecnica": "ESCALIX resuelve el análisis estático y diseño estructural de escaleras de hormigón armado de tramos rectos apoyadas en vigas o muros, calculando momentos de diseño, armadura principal, secundaria y detallado de anclajes según ACI 318.", "modulos": ["Distribución de cargas permanentes y sobrecargas según huella y contrahuella", "Análisis estructural por vigas equivalentes con apoyos elásticos/rígidos", "Diseño a flexión de armadura longitudinal y acero de repartición", "Verificación a esfuerzo cortante en el nudo losa-descanso", "Longitudes de desarrollo y traslapes en quiebres de descanso"], "captura_label": "Pantalla HP Prime: Diagrama de momentos flectores y sección de armadura"}, "014": {"id": "014", "nombre": "HIDROX", "codigo_corto": "HIDROX", "icono": "assets/programas/HIDROX/icono.png", "icono_svg": "assets/programas/HIDROX/icono.svg", "capturas": ["assets/programas/HIDROX/capturas/014_01.png", "assets/programas/HIDROX/capturas/014_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/HIDROX.hpappdir/guia/GUIA_HIDROX.pdf", "descripcion": "HIDROX es una aplicación de hidrología superficial para HP Prime enfocada en la caracterización morfométrica de cuencas y el análisis estadístico de precipitaciones. Su objetivo principal es calcular precipitaciones medias, completar registros faltantes, ajustar funciones de distribución de probabilidad para periodos de retorno y construir curvas de Intensidad-Duración-Frecuencia (IDF).", "funciones": ["Cálculo de parámetros geomorfológicos de cuencas hidrográficas (área, perímetro, factor de forma, pendiente media).", "Determinación de la precipitación media en cuencas mediante los métodos de promedio aritmético y polígonos de Thiessen.", "Estimación de datos hidrológicos faltantes mediante correlación lineal y método de proporciones de estaciones vecinas.", "Ajuste estadístico de series de precipitación máxima mediante funciones de distribución Gumbel, Log-Normal y Pearson III.", "Construcción y parametrización de curvas Intensidad-Duración-Frecuencia (IDF) para diferentes periodos de retorno."], "mas_informacion": "Fotos del programa/HIDROX.hpappdir/guia/GUIA_HIDROX.pdf", "subtitulo": "Hidrología superficial, cuencas y curvas IDF", "chips": ["Hidrología", "Curvas IDF", "Precipitación"], "desc_tecnica": "HIDROX procesa datos pluviométricos y morfométricos de cuencas hidrográficas para estimar avenidas máximas, construyendo curvas Intensidad-Duración-Frecuencia (IDF), hietogramas de diseño y modelos de escorrentía con distribuciones de Gumbel y Log-Pearson III.", "modulos": ["Ajuste estadístico de precipitaciones extremas (Gumbel, Log-Pearson III)", "Generación paramétrica de familias de curvas IDF", "Parámetros morfométricos: Área, perímetro, pendiente media y Kc", "Cálculo de tiempo de concentración por diversas fórmulas empíricas", "Hidrogramas unitarios triangulares y sintéticos del SCS"], "captura_label": "Pantalla HP Prime: Curvas IDF graficadas para diferentes periodos de retorno"}, "015": {"id": "015", "nombre": "HORMIX", "codigo_corto": "HORMIX", "icono": "assets/programas/HORMIX/icono.png", "icono_svg": "assets/programas/HORMIX/icono.svg", "capturas": ["assets/programas/HORMIX/capturas/015_01.png", "assets/programas/HORMIX/capturas/015_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/HORMIX.hpappdir/guia/GUIA_HORMIX.pdf", "descripcion": "HORMIX es un sistema computacional para HP Prime destinado a la dosificación científica de mezclas de concreto de peso normal conforme a la norma ACI 211.1-22. Su finalidad es calcular las proporciones exactas de cemento, agua, agregado grueso y agregado fino por el método de volúmenes absolutos, incluyendo correcciones por humedad de acopio en obra.", "funciones": ["Determinación de la resistencia media requerida (f'cr) a partir de la resistencia especificada (f'c) y desviación estándar.", "Selección de la relación agua/cemento por resistencia y durabilidad, y cálculo del contenido unitario de agua según el asentamiento.", "Cálculo del volumen de agregado grueso mediante la relación b/bo en función del tamaño máximo nominal y módulo de finura.", "Ajuste y cierre de mezcla por el método de volúmenes absolutos para determinar la masa exacta de agregado fino.", "Corrección automática de las proporciones de diseño por humedad superficial y absorción de los agregados de acopio."], "mas_informacion": "Fotos del programa/HORMIX.hpappdir/guia/GUIA_HORMIX.pdf", "subtitulo": "Dosificación de hormigón estructural por método ACI 211", "chips": ["ACI 211.1", "Hormigón de Obra", "Relación A/C"], "desc_tecnica": "HORMIX calcula las proporciones de mezcla de hormigón estructural según ACI 211.1 a partir de las propiedades de los áridos, resistencia f'c requerida, asentamiento de cono y condiciones de exposición, con corrección inmediata por humedad en obra.", "modulos": ["Determinación de la resistencia media requerida f'cr por desviación estándar", "Selección de relación agua/cemento por resistencia y durabilidad ACI", "Cálculo de contenido de agua de amasado y aire atrapado/incorporado", "Dosificación en peso seco y corrección automática por humedad de obra", "Ajuste de rendimientos volumétricos y proporciones por bolsa de cemento"], "captura_label": "Pantalla HP Prime: Tabla de dosificación corregida por humedad"}, "016": {"id": "016", "nombre": "INFLUX", "codigo_corto": "INFL", "icono": "assets/programas/INFLUX/icono.png", "icono_svg": "assets/programas/INFLUX/icono.svg", "capturas": ["assets/programas/INFLUX/capturas/016_01.png", "assets/programas/INFLUX/capturas/016_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/INFLUX.hpappdir/guia/GUIA_INFLUX.pdf", "descripcion": "INFLUX es un software de análisis estructural para HP Prime concebido para el trazado de líneas de influencia en vigas isostáticas con o sin voladizos. Su propósito principal es construir las funciones de influencia de reacciones, fuerzas cortantes y momentos flectores en cualquier sección, y evaluar las envolventes y efectos máximos desfavorables bajo trenes de cargas móviles.", "funciones": ["Modelado geométrico de vigas estáticamente determinadas con apoyos simples y extremos en voladizo.", "Generación analítica y trazado gráfico de líneas de influencia para reacciones de apoyo, cortantes y momentos flectores.", "Determinación de ordenadas de influencia en posiciones específicas a lo largo del vano mediante interpolación exacta.", "Paso y posicionamiento óptimo de trenes de carga concentrados y cargas distribuidas móviles según el criterio de máximos.", "Cálculo de valores absolutos máximos de cortante y momento flector producidos por sobrecargas vehiculares móviles."], "mas_informacion": "Fotos del programa/INFLUX.hpappdir/guia/GUIA_INFLUX.pdf", "subtitulo": "Líneas de influencia en vigas continuas y puentes", "chips": ["Líneas de Influencia", "Müller-Breslau", "Trenes de Carga"], "desc_tecnica": "INFLUX calcula y grafica líneas de influencia para reacciones, esfuerzos cortantes y momentos flectores en vigas hiperestáticas continuas mediante el principio de Müller-Breslau, posicionando trenes de carga móviles para obtener las envolventes máximas.", "modulos": ["Trazado continuo de líneas de influencia para vigas de N tramos", "Líneas de influencia para reacciones, cortantes y momentos en cualquier sección", "Paso de trenes de carga rodantes con búsqueda de posición crítica", "Cálculo de máximos y mínimos absolutos (envolvente de servicio)", "Visualización gráfica interactiva de ordenadas de influencia"], "captura_label": "Pantalla HP Prime: Línea de influencia para momento flector central"}, "017": {"id": "017", "nombre": "MADERIX", "codigo_corto": "MADERIX", "icono": "assets/programas/MADERIX/icono.png", "icono_svg": "assets/programas/MADERIX/icono.svg", "capturas": ["assets/programas/MADERIX/capturas/017_01.png", "assets/programas/MADERIX/capturas/017_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/MADERIX.hpappdir/guia/GUIA_MADERIX.pdf", "descripcion": "MADERIX es un programa para HP Prime dedicado al dimensionamiento y verificación estructural de elementos de madera aserrada y rolliza bajo la norma del Acuerdo de Cartagena (Manual de Diseño para Maderas del Grupo Andino). Su finalidad es evaluar miembros bajo flexión, corte, compresión paralela, columnas simples o compuestas y uniones mecánicas.", "funciones": ["Base de datos de propiedades físicas y esfuerzos admisibles para maderas de los grupos estructurales andinos (A, B y C).", "Diseño y comprobación de vigas a flexión simple, cortante longitudinal y verificación de deflexiones inmediatas y diferidas.", "Evaluación de columnas macizas, cortas, intermedias y esbeltas sometidas a compresión axial considerando pandeo.", "Verificación de elementos estructurales bajo solicitaciones combinadas de flexocompresión biaxial.", "Cálculo de capacidad resistente en uniones mecánicas de madera mediante pernos, clavos y pletinas de conexión."], "mas_informacion": "Fotos del programa/MADERIX.hpappdir/guia/GUIA_MADERIX.pdf", "subtitulo": "Diseño de elementos estructurales de madera (NDS / Cartagena)", "chips": ["Estructuras Madera", "NDS / Manual", "Flexión y Pandeo"], "desc_tecnica": "MADERIX dimensiona miembros estructurales de madera aserrada y laminada bajo flexión, compresión paralela, tracción y flexocompresión, ajustando tensiones admisibles por factores de modificación (humedad, duración de carga, temperatura y tamaño).", "modulos": ["Catálogo de especies y grupos estructurales de madera (A, B, C)", "Ajuste de esfuerzos admisibles por factores de corrección ambiental", "Diseño de vigas con control estricto de deflexiones a largo plazo", "Verificación de columnas con pandeo y esbeltez límite", "Uniones clavadas y empernadas en elementos de madera"], "captura_label": "Pantalla HP Prime: Factores de modificación y esfuerzos resistentes"}, "018": {"id": "018", "nombre": "COEFIX", "codigo_corto": "MCOEF", "icono": "assets/programas/COEFIX/icono.png", "icono_svg": "assets/programas/COEFIX/icono.svg", "capturas": ["assets/programas/COEFIX/capturas/018_01.png", "assets/programas/COEFIX/capturas/018_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/COEFIX.hpappdir/guia/GUIA_COEFIX.pdf", "descripcion": "COEFIX es una aplicación de análisis estructural para HP Prime que implementa el método simplificado de coeficientes de momentos y cortantes según la norma ACI 318. Su función principal es determinar de forma rápida las envolventes de momentos flectores positivos y negativos y fuerzas cortantes de diseño en vigas continuas y losas unidireccionales de concreto reforzado.", "funciones": ["Verificación automática de las condiciones de aplicabilidad del método de coeficientes del código ACI 318.", "Cálculo de momentos flectores positivos de tramo y momentos negativos en caras de apoyos interiores y exteriores.", "Determinación de fuerzas cortantes últimas en apoyos extremos y primeros apoyos interiores.", "Análisis para diferentes condiciones de borde (apoyo monolítico con viga perimetral, columna o apoyo simple).", "Generación de reportes tabulares y gráficos de envolventes de solicitaciones para diseño de armaduras longitudinales."], "mas_informacion": "Fotos del programa/COEFIX.hpappdir/guia/GUIA_COEFIX.pdf", "subtitulo": "Coeficientes de rigidez y transporte para vigas no prismáticas", "chips": ["Rigidez Angular", "Vigas Acarteladas", "Matriz K"], "desc_tecnica": "COEFIX determina con exactitud analítica los coeficientes de rigidez a flexión (k), transporte (C) y momentos de empotramiento perfecto (FEM) para vigas y columnas con acartelamientos parabólicos o rectos, alimentando modelos matriciales.", "modulos": ["Integración numérica para elementos de sección variable continua", "Coeficientes de rigidez angular en extremos izquierdo y derecho", "Factores de transporte cruzado para elementos no simétricos", "Momentos de empotramiento perfecto para cargas puntuales y distribuidas", "Ensamble de matriz de rigidez local 2D para miembros acartelados"], "captura_label": "Pantalla HP Prime: Coeficientes de rigidez y factores de transporte"}, "019": {"id": "019", "nombre": "MODALIX", "codigo_corto": "MODALX", "icono": "assets/programas/MODALIX/icono.png", "icono_svg": "assets/programas/MODALIX/icono.svg", "capturas": ["assets/programas/MODALIX/capturas/019_01.png", "assets/programas/MODALIX/capturas/019_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/MODALIX.hpappdir/guia/GUIA_MODALIX.pdf", "descripcion": "MODALIX es un software de dinámica estructural avanzada para HP Prime destinado al análisis modal espectral de edificaciones y estructuras de múltiples grados de libertad (MDOF). Su propósito es resolver el problema de valores y vectores propios para matrices de masa y rigidez, determinando frecuencias naturales, modos de vibración, masas participantes y respuestas espectrales combinadas.", "funciones": ["Solución del problema de autovalores generalizado [K]{phi} = omega^2 [M]{phi} para matrices de rigidez y masa de varios niveles.", "Cálculo de periodos naturales, frecuencias angulares y formas modales ortonormalizadas de vibración.", "Determinación de factores de participación modal y porcentaje acumulado de masa participante por modo.", "Cálculo de desplazamientos modales, fuerzas sísmicas de piso y cortantes basales por modo a partir de espectros de diseño.", "Combinación modal espectral de respuestas mediante los métodos CQC (Combinación Cuadrática Completa) y SRSS."], "mas_informacion": "Fotos del programa/MODALIX.hpappdir/guia/GUIA_MODALIX.pdf", "subtitulo": "Análisis modal y vibración libre en sistemas MDOF", "chips": ["MDOF", "Modos Propios", "Masas Participantes"], "desc_tecnica": "MODALIX resuelve el problema de valores y vectores propios en estructuras de múltiples grados de libertad (MDOF), determinando frecuencias naturales, periodos propios, formas modales y factores de participación modal de masa para análisis sísmico.", "modulos": ["Ensamble de matrices de masa concentrada/consistente y rigidez lateral", "Resolución de autovalores y autovectores por métodos numéricos", "Cálculo de periodos naturales Tn y frecuencias circulares ωn", "Factores de participación modal y porcentaje de masa acumulada", "Animación y trazado gráfico de formas modales de deformación"], "captura_label": "Pantalla HP Prime: Periodos modales y porcentajes de masa participante"}, "020": {"id": "020", "nombre": "SUELIX", "codigo_corto": "MSUELOS", "icono": "assets/programas/SUELIX/icono.png", "icono_svg": "assets/programas/SUELIX/icono.svg", "capturas": ["assets/programas/SUELIX/capturas/020_01.png", "assets/programas/SUELIX/capturas/020_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/SUELIX.hpappdir/guia/GUIA_SUELIX.pdf", "descripcion": "SUELIX es una suite de geotecnia y mecánica de suelos para HP Prime concebida para la resolución de relaciones de fases, clasificación de suelos, capacidad portante y estabilidad de taludes. Su objetivo principal es procesar parámetros de laboratorio y terreno para clasificar suelos por SUCS y AASHTO, evaluar cimentaciones por Terzaghi y analizar taludes por Bishop.", "funciones": ["Cálculo integral de relaciones gravimétricas y volumétricas de fases (humedad, vacíos, porosidad, saturación y densidades).", "Clasificación sistemática de suelos según los sistemas SUCS (ASTM D2487) y AASHTO (M-145) a partir de límites y tamizados.", "Determinación de la capacidad de carga admisible y última de cimentaciones superficiales mediante la teoría de Terzaghi.", "Evaluación de la estabilidad de taludes circulares homogéneos calculando el factor de seguridad por el Método de Bishop Simplificado.", "Cálculo de tensiones geostáticas verticales totales, neutras y efectivas a diferentes profundidades del perfil estratigráfico."], "mas_informacion": "Fotos del programa/SUELIX.hpappdir/guia/GUIA_SUELIX.pdf", "subtitulo": "Mecánica de suelos, clasificación y cimentaciones", "chips": ["SUCS / AASHTO", "Terzaghi", "Mohr-Coulomb"], "desc_tecnica": "SUELIX es una suite geotécnica completa que clasifica suelos por SUCS y AASHTO, calcula tensiones geostáticas y Círculo de Mohr, evalúa capacidad portante por Terzaghi y analiza estabilidad de taludes por Bishop Simplificado en la HP Prime.", "modulos": ["Clasificación automática de suelos según SUCS (ASTM D2487) y AASHTO", "Trazado interactivo del Círculo de Mohr y envolvente de falla", "Capacidad portante admisible de cimentaciones superficiales (Terzaghi)", "Factor de seguridad de estabilidad de taludes por Bishop Simplificado", "Distribución de presiones verticales efectivas, neutras y totales"], "captura_label": "Vista del módulo: Trazado interactivo de Círculo de Mohr"}, "021": {"id": "021", "nombre": "MUROX", "codigo_corto": "MUROX", "icono": "assets/programas/MUROX/icono.png", "icono_svg": "assets/programas/MUROX/icono.svg", "capturas": ["assets/programas/MUROX/capturas/021_01.png", "assets/programas/MUROX/capturas/021_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/MUROX.hpappdir/guia/GUIA_MUROX.pdf", "descripcion": "MUROX es una aplicación de ingeniería geotécnica y estructural para HP Prime orientada al diseño y verificación de muros de contención de gravedad y muros en voladizo de concreto armado. Su finalidad es calcular empujes de tierras (Rankine/Coulomb), evaluar la estabilidad frente al volcamiento, deslizamiento y presiones sobre el terreno, y dimensionar las armaduras de la pantalla y zapatas.", "funciones": ["Cálculo analítico de coeficientes de empuje activo y pasivo del suelo mediante las teorías de Rankine y Coulomb con sobrecargas.", "Verificación de la seguridad global del muro frente a falla por deslizamiento basal y volcamiento alrededor del pie.", "Determinación de presiones de contacto en la base del suelo y comprobación de excentricidad respecto al tercio central.", "Diseño estructural por resistencia última de la pantalla vertical de concreto armado bajo momentos flectores y cortantes.", "Dimensionamiento del refuerzo en la zapata de cimentación (puntera y talón) y verificación del dentellón antideslizante."], "mas_informacion": "Fotos del programa/MUROX.hpappdir/guia/GUIA_MUROX.pdf", "subtitulo": "Diseño y estabilidad de muros de contención de tierras", "chips": ["Muros de Gravedad", "Empuje de Tierras", "Estabilidad"], "desc_tecnica": "MUROX analiza y diseña muros de contención por gravedad y en voladizo de hormigón armado, evaluando factores de seguridad contra vuelco, deslizamiento, capacidad de soporte del terreno y dimensionamiento de armadura en pantalla y talón.", "modulos": ["Cálculo de empujes de tierras por teorías de Rankine y Coulomb", "Evaluación de sobrecargas de tráfico, nivel freático y talud inclinado", "Factores de seguridad al volteo, deslizamiento y falla de fondo", "Presiones de contacto y excentricidad resultante en la zapata", "Diseño estructural de armadura en pantalla vertical, puntera y talón"], "captura_label": "Pantalla HP Prime: Factores de seguridad FSv y FSd del muro"}, "022": {"id": "022", "nombre": "PAVIX", "codigo_corto": "PAV93", "icono": "assets/programas/PAVIX/icono.png", "icono_svg": "assets/programas/PAVIX/icono.svg", "capturas": ["assets/programas/PAVIX/capturas/022_01.png", "assets/programas/PAVIX/capturas/022_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PAVIX.hpappdir/guia/GUIA_PAVIX.pdf", "descripcion": "PAVIX es un software de ingeniería de transporte para HP Prime enfocado en el diseño estructural de pavimentos flexibles y rígidos bajo la metodología AASHTO 93. Su propósito es procesar el tráfico de diseño en ejes equivalentes (ESALs), características mecánicas de la subrasante y materiales de capa para determinar el Número Estructural (SN) o el espesor de losa de concreto.", "funciones": ["Cálculo y proyección del tráfico de diseño acumulado en Ejes Equivalentes Sencillos de 80 kN (ESALs / W18).", "Determinación del Número Estructural requerido (SN) para pavimentos asfálticos considerando confiabilidad, desviación y servicialidad.", "Asignación de espesores de capas (carpeta asfáltica, base y subbase) mediante coeficientes estructurales y de drenaje.", "Diseño de pavimentos rígidos de concreto hidráulico calculando el espesor de losa mediante la ecuación general AASHTO.", "Evaluación de pérdidas de servicialidad (delta PSI), módulo de reacción de la subrasante (k) y coeficiente de transferencia de carga."], "mas_informacion": "Fotos del programa/PAVIX.hpappdir/guia/GUIA_PAVIX.pdf", "subtitulo": "Diseño de pavimentos flexibles y rígidos según AASHTO 93", "chips": ["AASHTO 93", "Pavimentos", "Número Estructural SN"], "desc_tecnica": "PAVIX implementa la metodología AASHTO 93 para el diseño de pavimentos flexibles (cálculo de número estructural SN y espesores de capas) y pavimentos rígidos de concreto hidráulico (espesor de losa), considerando tráfico ESALs y confiabilidad.", "modulos": ["Cálculo de ejes equivalentes de carga (ESALs) de diseño", "Resolución de la ecuación implícita AASHTO 93 para pavimento flexible", "Determinación de espesores de carpeta asfáltica, base y subbase", "Diseño de losas de hormigón para pavimento rígido (módulo de rotura)", "Drenaje de capas granulares y módulos resilientes de subrasante"], "captura_label": "Pantalla HP Prime: Solución de la ecuación AASHTO y espesores"}, "023": {"id": "023", "nombre": "PERTIX", "codigo_corto": "PERTIX", "icono": "assets/programas/PERTIX/icono.png", "icono_svg": "assets/programas/PERTIX/icono.svg", "capturas": ["assets/programas/PERTIX/capturas/023_01.png", "assets/programas/PERTIX/capturas/023_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PERTIX.hpappdir/guia/GUIA_PERTIX.pdf", "descripcion": "PERTIX es una herramienta de gestión y administración de proyectos para HP Prime orientada a la programación, planificación y control de obras mediante las técnicas CPM (Método de la Ruta Crítica) y PERT. Su finalidad es procesar redes de actividades con dependencias de precedencia, identificar la ruta crítica y calcular holguras de tiempo.", "funciones": ["Definición de actividades de proyecto con duraciones deterministas (CPM) o probabilísticas de tres tiempos (optimista, probable, pesimista).", "Cálculo de tiempos tempranos (inicio y término más temprano) y tiempos tardíos (inicio y término más tardío) por pasada adelante y atrás.", "Identificación exacta de la ruta crítica y las actividades críticas sin margen de holgura temporal.", "Determinación de holguras totales y holguras libres para cada actividad no crítica del proyecto.", "Cálculo de la varianza del proyecto y estimación de la probabilidad de cumplir plazos contractuales mediante distribución normal."], "mas_informacion": "Fotos del programa/PERTIX.hpappdir/guia/GUIA_PERTIX.pdf", "subtitulo": "Programación, ruta crítica y control de proyectos PERT/CPM", "chips": ["Planificación", "PERT / CPM", "Ruta Crítica"], "desc_tecnica": "PERTIX modela redes de actividades de proyectos de construcción mediante las metodologías PERT y CPM, determinando fechas tempranas, fechas tardías, holguras libres y totales, identificando la ruta crítica del cronograma de obra.", "modulos": ["Definición de red de precedencias de actividades (diagrama de flechas/bloques)", "Cálculo de tiempos tempranos (ES, EF) y tiempos tardíos (LS, LF)", "Identificación inmediata de la ruta crítica y duración total del proyecto", "Determinación de holgura total y holgura libre por actividad", "Análisis probabilístico PERT con tiempos optimista, probable y pesimista"], "captura_label": "Pantalla HP Prime: Red de actividades, holguras y ruta crítica"}, "024": {"id": "024", "nombre": "PILOTIX", "codigo_corto": "PILOTIX", "icono": "assets/programas/PILOTIX/icono.png", "icono_svg": "assets/programas/PILOTIX/icono.svg", "capturas": ["assets/programas/PILOTIX/capturas/024_01.png", "assets/programas/PILOTIX/capturas/024_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PILOTIX.hpappdir/guia/GUIA_PILOTIX.pdf", "descripcion": "PILOTIX es un programa avanzado de geotecnia para HP Prime dedicado al análisis y diseño de cimentaciones profundas mediante pilotes aislados y grupos de pilotes. Su propósito principal es calcular la capacidad de carga última y admisible por fuste y por punta en suelos cohesivos y granulares, evaluar asentamientos y estimar la eficiencia de grupo.", "funciones": ["Cálculo de resistencia por punta (Qp) y resistencia por fricción lateral en el fuste (Qs) en suelos estratificados.", "Implementación de métodos analíticos estáticos clásicos (Meyerhof, Vesic, Coyle-Castello, método alfa y método beta).", "Determinación de la capacidad de carga admisible aplicando factores de seguridad globales normativos.", "Análisis de grupos de pilotes con cálculo de espaciamientos óptimos y factor de eficiencia mediante Converse-Labarre.", "Estimación de asentamientos elásticos inmediatos del pilote individual y asentamiento consolidado del grupo."], "mas_informacion": "Fotos del programa/PILOTIX.hpappdir/guia/GUIA_PILOTIX.pdf", "subtitulo": "Capacidad de carga y asentamiento en pilotes y grupos", "chips": ["Pilotes", "Cimentaciones Profundas", "Fricción y Punta"], "desc_tecnica": "PILOTIX calcula la capacidad portante admisible y última de pilotes individuales y grupos de pilotes en suelos cohesivos y granulares, desglosando resistencia por fricción lateral (fuste), resistencia por punta y eficiencia de grupo.", "modulos": ["Capacidad por fuste y punta según métodos estáticos (Meyerhof, Coyle-Castello)", "Análisis en arcillas por método alfa y arenas por método beta", "Cálculo de eficiencia de grupos de pilotes y efecto de bloque", "Estimación de asentamientos elásticos inmediatos y por consolidación", "Verificación estructural del fuste de hormigón armado bajo carga axial"], "captura_label": "Pantalla HP Prime: Desglose de capacidad por fuste, punta y total"}, "025": {"id": "025", "nombre": "PLACAX", "codigo_corto": "PLACAX", "icono": "assets/programas/PLACAX/icono.png", "icono_svg": "assets/programas/PLACAX/icono.svg", "capturas": ["assets/programas/PLACAX/capturas/025_01.png", "assets/programas/PLACAX/capturas/025_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PLACAX.hpappdir/guia/GUIA_PLACAX.pdf", "descripcion": "PLACAX es un software de diseño estructural para HP Prime concebido para el análisis y verificación de muros estructurales y placas de concreto armado según el código ACI 318. Su función principal es evaluar la resistencia a fuerza cortante en el plano, verificar la flexocompresión biaxial mediante diagramas de interacción P-M y diseñar elementos de borde de confinamiento.", "funciones": ["Verificación de la resistencia a esfuerzo cortante en el plano del muro y diseño de cuantías de acero horizontal y vertical.", "Análisis seccional a flexocompresión biaxial bajo combinaciones últimas de carga axial y momentos flectores.", "Generación de diagramas de interacción P-M para secciones rectangulares, perfiles con aletas o secciones compuestas.", "Evaluación de la necesidad de elementos de borde especiales de confinamiento según los criterios de desplazamiento y esfuerzos del ACI 318.", "Diseño del refuerzo transversal (estribos y trabas) para ductilidad en los extremos confinados de la placa."], "mas_informacion": "Fotos del programa/PLACAX.hpappdir/guia/GUIA_PLACAX.pdf", "subtitulo": "Diseño de losas y placas bidireccionales de hormigón armado", "chips": ["ACI 318", "Losas Bidireccionales", "Método Directo"], "desc_tecnica": "PLACAX diseña losas macizas y aligeradas de hormigón armado armadas en dos direcciones según el Método de Diseño Directo del ACI 318, calculando momentos estáticos totales, distribución en franjas de columna/medias y punzonamiento.", "modulos": ["Validación de límites geométricos para aplicación del Método Directo", "Cálculo de momentos estáticos totales Mo en ambos sentidos", "Distribución de momentos positivos y negativos en franja de columna y media", "Verificación al esfuerzo cortante unidireccional y punzonamiento biaxial", "Determinación de cuantías de acero y espaciamientos reglamentarios"], "captura_label": "Pantalla HP Prime: Distribución de momentos flectores por franjas"}, "026": {"id": "026", "nombre": "PRESFOX", "codigo_corto": "PRESFOR", "icono": "assets/programas/PRESFOX/icono.png", "icono_svg": "assets/programas/PRESFOX/icono.svg", "capturas": ["assets/programas/PRESFOX/capturas/026_01.png", "assets/programas/PRESFOX/capturas/026_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PRESFOX.hpappdir/guia/GUIA_PRESFOX.pdf", "descripcion": "PRESFOX es una aplicación para HP Prime orientada al diseño y revisión de vigas de concreto presforzado (pretensado y postensado). Su objetivo principal es calcular la fuerza de presfuerzo requerida, cuantificar las pérdidas instantáneas y diferidas en el tiempo, verificar tensiones admisibles en transferencia y servicio, y comprobar la resistencia última a flexión y corte.", "funciones": ["Definición geométrica de secciones de vigas de concreto (I, T, cajón, rectangular) y trazado paramétrico de tendones.", "Cálculo de pérdidas inmediatas de presfuerzo por acortamiento elástico, fricción y deslizamiento en anclajes.", "Estimación de pérdidas diferidas en el tiempo por flujo plástico del concreto, retracción y relajación del acero de presfuerzo.", "Verificación de esfuerzos normales en fibras extremas (superior e inferior) en etapas de transferencia y servicio.", "Cálculo de la resistencia nominal a flexión última y revisión de la capacidad a esfuerzo cortante según el código ACI 318."], "mas_informacion": "Fotos del programa/PRESFOX.hpappdir/guia/GUIA_PRESFOX.pdf", "subtitulo": "Hormigón pretensado, trazado de cables y pérdidas", "chips": ["Hormigón Pretensado", "Pérdidas de Tensión", "ACI / AASHTO"], "desc_tecnica": "PRESFOX resuelve el diseño y revisión de elementos de hormigón pretensado y postensado. Calcula pérdidas instantáneas y diferidas de tensión, trayectoria óptima de cables parabólicos y verificación de esfuerzos en servicio y rotura.", "modulos": ["Pérdidas instantáneas por fricción, cuña de anclaje y acortamiento elástico", "Pérdidas diferidas por fluencia lenta, retracción del hormigón y relajación del acero", "Trazado parabólico y cálculo de excentricidades críticas del tendón", "Control de tensiones admisibles en fibra superior e inferior en transferencia y servicio", "Cálculo de resistencia nominal a flexión última según ACI 318"], "captura_label": "Pantalla HP Prime: Diagrama de tensiones normales en transferencia y servicio"}, "027": {"id": "027", "nombre": "PUENTIX", "codigo_corto": "PUENTIX", "icono": "assets/programas/PUENTIX/icono.png", "icono_svg": "assets/programas/PUENTIX/icono.svg", "capturas": ["assets/programas/PUENTIX/capturas/027_01.png", "assets/programas/PUENTIX/capturas/027_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/PUENTIX.hpappdir/guia/GUIA_PUENTIX.pdf", "descripcion": "PUENTIX es una herramienta de ingeniería de puentes para HP Prime diseñada para el predimensionamiento y análisis de superestructuras de puentes vehiculares viga-losa bajo la normativa AASHTO LRFD. Su propósito es modelar las cargas permanentes, el tren de carga vivo vehicular HL-93 con incremento dinámico y aplicar los factores de distribución de carga transversal.", "funciones": ["Predimensionamiento geométrico de tableros de puente de vigas y losa de concreto armado según directrices AASHTO LRFD.", "Modelado de cargas permanentes (peso propio de vigas, losa de calzada, barandas, carpeta de rodadura y diafragmas).", "Aplicación de la sobrecarga vehicular de diseño HL-93 (camión de diseño, tándem y carga de carril de 9.3 kN/m).", "Cálculo de factores de distribución lateral de momentos y cortantes para vigas interiores y exteriores mediante ecuaciones AASHTO.", "Determinación de solicitaciones críticas máximas (momentos y cortantes) aplicando el teorema de Barré e incremento dinámico."], "mas_informacion": "Fotos del programa/PUENTIX.hpappdir/guia/GUIA_PUENTIX.pdf", "subtitulo": "Análisis y diseño de puentes viga-losa según AASHTO LRFD", "chips": ["AASHTO LRFD", "Puentes", "Camión HL-93"], "desc_tecnica": "PUENTIX modela y diseña superestructuras de puentes de vigas T y vigas cajón de hormigón armado según la norma AASHTO LRFD, aplicando sobrecarga viva HL-93 con factores de presencia múltiple y distribución de momentos.", "modulos": ["Cargas de peso propio, asfalto y barreras vehiculares", "Sobrecarga vehicular móvil HL-93 (camión de diseño, tándem y faja)", "Factores de distribución de carga para momento y corte según AASHTO LRFD", "Envolventes para estados límite de Resistencia I y Servicio I", "Diseño de armadura a flexión, cortante y control de fisuración"], "captura_label": "Pantalla HP Prime: Envolvente de momentos por carga móvil HL-93"}, "028": {"id": "028", "nombre": "REDHIX", "codigo_corto": "REDHIX", "icono": "assets/programas/REDHIX/icono.png", "icono_svg": "assets/programas/REDHIX/icono.svg", "capturas": ["assets/programas/REDHIX/capturas/028_01.png", "assets/programas/REDHIX/capturas/028_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/REDHIX.hpappdir/guia/GUIA_REDHIX.pdf", "descripcion": "REDHIX es un software de hidráulica de conductos para HP Prime concebido para el análisis y balance de redes de distribución de agua a presión en circuitos mallados cerrados. Su función es resolver iterativamente los caudales circulantes y las pérdidas de carga en cada tramo mediante el método clásico de aproximaciones sucesivas de Hardy Cross.", "funciones": ["Modelado topológico de redes hidráulicas malladas con definición de nudos de consumo, tramos de tubería y circuitos cerrados.", "Cálculo de pérdidas por fricción mediante las ecuaciones de resistencia de Hazen-Williams o Darcy-Weisbach con Colebrook-White.", "Balanceo iterativo de caudales en mallas cerradas mediante el algoritmo de corrección de Hardy Cross hasta converger.", "Determinación de caudales finales, sentidos reales de flujo, velocidades de circulación y gradientes hidráulicos por tubería.", "Cálculo de presiones disponibles y cotas piezométricas en todos los nudos de consumo de la red."], "mas_informacion": "Fotos del programa/REDHIX.hpappdir/guia/GUIA_REDHIX.pdf", "subtitulo": "Redes de distribución de agua a presión por Hardy Cross", "chips": ["Redes de Agua", "Hardy Cross", "Hazen-Williams"], "desc_tecnica": "REDHIX equilibra y resuelve redes cerradas de tuberías malladas a presión mediante el algoritmo de aproximaciones sucesivas de Hardy Cross, calculando caudales corregidos, pérdidas de carga por fricción y presiones en nudos.", "modulos": ["Modelado de redes malladas con múltiples circuitos cerrados", "Ecuaciones de fricción por Hazen-Williams o Darcy-Weisbach", "Cálculo iterativo de corrección de caudal Delta Q por malla", "Presiones piezométricas disponibles en cada nudo de demanda", "Detección de presiones mínimas de servicio y velocidades máximas"], "captura_label": "Pantalla HP Prime: Iteraciones de circuito y caudales balanceados"}, "029": {"id": "029", "nombre": "LATERALIX", "codigo_corto": "RLAT", "icono": "assets/programas/LATERALIX/icono.png", "icono_svg": "assets/programas/LATERALIX/icono.svg", "capturas": ["assets/programas/LATERALIX/capturas/029_01.png", "assets/programas/LATERALIX/capturas/029_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/LATERALIX.hpappdir/guia/GUIA_LATERALIX.pdf", "descripcion": "LATERALIX es un programa de dinámica y análisis estructural para HP Prime enfocado en el cálculo de la rigidez lateral y efectos torsionales en edificios de varios pisos. Su propósito es determinar las coordenadas del centro de masas, centro de rigidez, excentricidades estáticas y accidentales, y repartir las fuerzas cortantes de entrepiso entre los elementos sismorresistentes.", "funciones": ["Determinación de las coordenadas del centro de masas (CM) por nivel a partir de cargas y masas distribuidas.", "Cálculo de las rigideces laterales de muros, pórticos y columnas, y determinación del centro de rigidez (CR) del nivel.", "Evaluación de excentricidades estáticas naturales y cálculo de excentricidades accidentales normativas.", "Cálculo de la rigidez torsional global del entrepiso frente a rotaciones alrededor del centro de rigidez.", "Distribución del cortante sísmico directo y cortante por torsión accidental entre cada pórtico o muro sismorresistente."], "mas_informacion": "Fotos del programa/LATERALIX.hpappdir/guia/GUIA_LATERALIX.pdf", "subtitulo": "Empujes laterales de suelo por teorías de Rankine y Coulomb", "chips": ["Geotecnia", "Empujes Laterales", "Rankine / Coulomb"], "desc_tecnica": "LATERALIX calcula diagramas de empuje de tierras lateral activo, pasivo y en reposo sobre estructuras de contención, considerando estratos de suelo múltiples, nivel freático, cohesión, rozamiento muro-suelo y sobrecargas en superficie.", "modulos": ["Coeficientes Ka, Kp y Ko por Rankine y Coulomb con fricción en muro", "Empujes hidrostáticos combinados con presiones de suelo saturado", "Sobrecargas superficiales uniformes, puntuales y en faja", "Resultante total de empuje y punto de aplicación (brazo de palanca)", "Trazado del diagrama de presiones laterales continuas"], "captura_label": "Pantalla HP Prime: Diagrama de presiones laterales y resultante"}, "030": {"id": "030", "nombre": "SECTIX", "codigo_corto": "SECC", "icono": "assets/programas/SECTIX/icono.png", "icono_svg": "assets/programas/SECTIX/icono.svg", "capturas": ["assets/programas/SECTIX/capturas/030_01.png", "assets/programas/SECTIX/capturas/030_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/SECTIX.hpappdir/guia/GUIA_SECTIX.pdf", "descripcion": "SECTIX es un potente calculador seccional para HP Prime dedicado a la determinación de propiedades geométricas y mecánicas de secciones transversales arbitrarias y compuestas. Su finalidad es calcular área, posición del centroide, momentos de inercia respecto a ejes centroidales, producto de inercia, orientación de ejes principales y círculos de Mohr.", "funciones": ["Modelado de secciones complejas mediante ensamblaje de figuras geométricas primitivas y perfiles estándar predefinidos.", "Cálculo de propiedades seccionales globales: área neta total, perímetro y coordenadas exactas del centroide baricéntrico.", "Determinación de momentos de inercia (Ix, Iy) y producto de inercia (Ixy) respecto a ejes de referencia y ejes centroidales mediante Steiner.", "Cálculo de la orientación del ángulo de los ejes principales de inercia y valores de los momentos principales máximos y mínimos.", "Cálculo de radios de giro (rx, ry) y visualización gráfica interactiva de la sección transversal y el círculo de Mohr."], "mas_informacion": "Fotos del programa/SECTIX.hpappdir/guia/GUIA_SECTIX.pdf", "subtitulo": "Propiedades mecánicas y geométricas de secciones compuestas", "chips": ["Propiedades de Sección", "Inercias Ix Iy", "Módulos Plásticos"], "desc_tecnica": "SECTIX calcula propiedades geométricas y resistentes de secciones transversales arbitrarias y compuestas: área, centroide, momentos de inercia Ix e Iy, producto de inercia Ixy, radio de giro, ejes principales de inercia y módulos plásticos Z.", "modulos": ["Área total y coordenadas del centro de gravedad (Xg, Yg)", "Momentos de inercia centroidales Ix, Iy y producto Ixy por Steiner", "Orientación de los ejes principales de inercia e inercias máxima/mínima", "Radios de giro rx, ry y módulos elásticos de sección Sx, Sy", "Módulo de sección plástico Zx, Zy para perfiles compuestos"], "captura_label": "Pantalla HP Prime: Inercias principales y coordenadas de centroide"}, "031": {"id": "031", "nombre": "SISMIX", "codigo_corto": "SISMIX", "icono": "assets/programas/SISMIX/icono.png", "icono_svg": "assets/programas/SISMIX/icono.svg", "capturas": ["assets/programas/SISMIX/capturas/031_01.png", "assets/programas/SISMIX/capturas/031_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/SISMIX.hpappdir/guia/GUIA_SISMIX.pdf", "descripcion": "SISMIX es una herramienta para HP Prime concebida para el análisis sísmico estático equivalente de edificaciones regulares e irregulares conforme a normas sismorresistentes. Su propósito principal es calcular el periodo fundamental de la estructura, determinar la fuerza sísmica total en la base (cortante basal) y distribuirla verticalmente en altura entre todos los niveles del edificio.", "funciones": ["Estimación del periodo fundamental de vibración mediante fórmulas empíricas de altura y tipología estructural.", "Cálculo del factor de amplificación sísmica en función del periodo y los límites espectrales del suelo de cimentación.", "Determinación del coeficiente sísmico de diseño y cálculo del cortante basal total actuante en la base de la estructura.", "Distribución vertical del cortante sísmico en altura como fuerzas laterales aplicadas en cada nivel según masas y elevaciones.", "Cálculo de momentos de volcamiento por nivel y fuerzas sísmicas acumuladas para diseño estructural de fundaciones."], "mas_informacion": "Fotos del programa/SISMIX.hpappdir/guia/GUIA_SISMIX.pdf", "subtitulo": "Análisis estático sísmico y distribución de cortante basal", "chips": ["Sismo", "Cortante Basal", "Fuerzas Laterales"], "desc_tecnica": "SISMIX calcula el cortante basal sísmico y su distribución vertical de fuerzas laterales en edificios por el Método de la Fuerza Lateral Equivalente, evaluando irregularidades estructurales, peso sísmico efectivo y torsión accidental.", "modulos": ["Determinación del coeficiente de aceleración sísmica de diseño", "Cálculo del peso sísmico por nivel (cargas muertas + porcentaje de vivas)", "Distribución parabólica/lineal de cortante basal por piso", "Momentos volcadores acumulados por nivel y cortante de entrepiso", "Estimación de distorsiones de entrepiso (drifts) admisibles"], "captura_label": "Pantalla HP Prime: Distribución de fuerzas sísmicas por nivel"}, "032": {"id": "032", "nombre": "TOPOX", "codigo_corto": "TOPOX", "icono": "assets/programas/TOPOX/icono.png", "icono_svg": "assets/programas/TOPOX/icono.svg", "capturas": ["assets/programas/TOPOX/capturas/032_01.png", "assets/programas/TOPOX/capturas/032_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/TOPOX.hpappdir/guia/GUIA_TOPOX.pdf", "descripcion": "TOPOX es una suite integral de topografía y geodesia práctica para HP Prime diseñada para el procesamiento de datos de campo en levantamientos topográficos. Su objetivo es calcular y compensar poligonales abiertas y cerradas, resolver radiaciones con estación total, calcular nivelaciones geométricas y determinar áreas y volúmenes de terreno.", "funciones": ["Cálculo y compensación angular y lineal de poligonales topográficas cerradas por el método de la brújula (Bowditch).", "Determinación del error de cierre angular, error lineal relativo y comprobación de precisiones mínimas tolerables.", "Procesamiento masivo de puntos de radiación para cálculo de coordenadas cartesianas tridimensionales (N, E, Z).", "Cálculo de carteras de nivelación geométrica compuesta con comprobación de errores de cierre altimétrico.", "Cálculo analítico de áreas de polígonos cerrados mediante el método de coordenadas (fórmula de Gauss) y partición de predios."], "mas_informacion": "Fotos del programa/TOPOX.hpappdir/guia/GUIA_TOPOX.pdf", "subtitulo": "Cálculo y compensación de poligonales topográficas", "chips": ["Topografía", "Poligonales", "Coordenadas UTM"], "desc_tecnica": "TOPOX resuelve poligonales topográficas cerradas y abiertas con cálculo de acimutes, rumbos, coordenadas parciales, error de cierre angular, error de cierre lineal, precisión relativa y compensación por la regla de la brújula (Bowditch).", "modulos": ["Cálculo de acimutes a partir de ángulos observados y orientación inicial", "Evaluación de tolerancia y compensación de error de cierre angular", "Proyecciones Norte y Este con cálculo de error de cierre lineal", "Compensación de coordenadas por método de la brújula y tránsito", "Cálculo de superficie del polígono por determinantes de Gauss"], "captura_label": "Pantalla HP Prime: Planilla de coordenadas compensadas y error de cierre"}, "033": {"id": "033", "nombre": "TUBIX", "codigo_corto": "TUBER", "icono": "assets/programas/TUBIX/icono.png", "icono_svg": "assets/programas/TUBIX/icono.svg", "capturas": ["assets/programas/TUBIX/capturas/033_01.png", "assets/programas/TUBIX/capturas/033_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/TUBIX.hpappdir/guia/GUIA_TUBIX.pdf", "descripcion": "TUBIX es un software de hidráulica aplicada para HP Prime especializado en el cálculo y dimensionamiento de tuberías a presión simples y en serie. Su función principal es determinar pérdidas de carga continuas por fricción y pérdidas localizadas por accesorios, calculando el factor de fricción mediante Colebrook-White o Hazen-Williams para obtener caudales o diámetros requeridos.", "funciones": ["Cálculo del factor de fricción de Darcy (f) para flujo laminar y turbulento resolviendo Colebrook-White mediante métodos numéricos.", "Determinación de pérdidas de carga por fricción a lo largo de la conducción mediante Darcy-Weisbach o Hazen-Williams.", "Evaluación de pérdidas de carga menores o secundarias generadas por válvulas, codos, ensanchamientos y contracciones.", "Resolución de los tres problemas clásicos de tuberías: cálculo de pérdida de carga, cálculo de caudal (Q) y dimensionamiento de diámetro (D).", "Análisis de conducciones compuestas en serie determinando líneas de gradiente hidráulico y líneas de energía piezométrica."], "mas_informacion": "Fotos del programa/TUBIX.hpappdir/guia/GUIA_TUBIX.pdf", "subtitulo": "Cálculo hidráulico de tuberías, líneas de impulsión y bombas", "chips": ["Tuberías a Presión", "Pérdidas de Carga", "Bombas"], "desc_tecnica": "TUBIX dimensiona conducciones a presión simples y líneas de impulsión por bombeo. Determina pérdidas continuas y localizadas (Colebrook-White y Hazen-Williams), punto de operación de la bomba y golpe de ariete por Allievi.", "modulos": ["Pérdidas continuas por fricción (Darcy-Weisbach / Colebrook-White)", "Pérdidas de carga menores en accesorios, codos, válvulas y uniones", "Cálculo de la altura manométrica total (HMT) requerida por el sistema", "Potencia de bomba requerida en CV/HP y selección de punto de trabajo", "Verificación de sobrepresión por golpe de ariete (fórmula de Allievi)"], "captura_label": "Pantalla HP Prime: Altura manométrica total y potencia de bomba"}, "034": {"id": "034", "nombre": "VALUAX", "codigo_corto": "VALUAX", "icono": "assets/programas/VALUAX/icono.png", "icono_svg": "assets/programas/VALUAX/icono.svg", "capturas": ["assets/programas/VALUAX/capturas/034_01.png", "assets/programas/VALUAX/capturas/034_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/VALUAX.hpappdir/guia/GUIA_VALUAX.pdf", "descripcion": "VALUAX es una herramienta de gestión financiera de obras para HP Prime concebida para la elaboración y control de valuaciones periódicas de avance físico y financiero en contratos de construcción. Su finalidad es procesar planillas de medición, calcular importes contractuales del período, amortizar anticipos y liquidar retenciones de garantía de pago.", "funciones": ["Registro y estructuración del presupuesto contractual de obra con códigos de partida, unidades, cantidades y precios unitarios.", "Cálculo de mediciones ejecutadas en el período actual y cómputo del porcentaje de avance físico parcial y acumulado.", "Liquidación financiera de la valuación con aplicación de amortización porcentual de anticipo de obra ordinario y especial.", "Deducción paramétrica de retenciones de fondo de garantía laboral y cálculo de impuestos aplicables sobre el monto neto.", "Generación de reportes de control con saldos pendientes por ejecutar, balance de cantidades y estado financiero del contrato."], "mas_informacion": "Fotos del programa/VALUAX.hpappdir/guia/GUIA_VALUAX.pdf", "subtitulo": "Tasación y avalúo técnico de edificaciones e inmuebles", "chips": ["Tasaciones", "Ross-Heidecke", "Avalúos Inmobiliarios"], "desc_tecnica": "VALUAX determina el valor comercial, venal y de reposición de bienes inmuebles mediante el método del costo de reposición depreciado, aplicando la tabla de depreciación por edad y estado de conservación de Ross-Heidecke.", "modulos": ["Cálculo del costo de reposición a nuevo de la edificación", "Aplicación del coeficiente de depreciación física de Ross-Heidecke", "Ponderación por estado de mantenimiento (de excelente a muy malo)", "Valuación del terreno por métodos de mercado y factores de frente/fondo", "Dictamen final de valor comercial, de liquidación y asegurable"], "captura_label": "Pantalla HP Prime: Resumen de depreciación y valor comercial"}, "035": {"id": "035", "nombre": "VIGAX", "codigo_corto": "VIGA", "icono": "assets/programas/VIGAX/icono.png", "icono_svg": "assets/programas/VIGAX/icono.svg", "capturas": ["assets/programas/VIGAX/capturas/035_01.png", "assets/programas/VIGAX/capturas/035_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/VIGAX.hpappdir/guia/GUIA_VIGAX.pdf", "descripcion": "VIGAX es una plataforma para HP Prime orientada al análisis matricial y diseño estructural de vigas continuas de concreto armado según la norma ACI 318. Su propósito principal es resolver vigas hiperestáticas bajo diversas condiciones de apoyo y cargas, generar las envolventes de momentos y cortantes, y dimensionar el refuerzo longitudinal y transversal requerido.", "funciones": ["Análisis elástico lineal por el método de rigidez directa de vigas continuas de múltiples tramos con diferentes inercias.", "Cálculo y trazado interactivo de diagramas continuos de fuerza cortante (V) y momento flector (M) bajo combinaciones de carga.", "Generación automática de envolventes máximas de diseño para momentos positivos de tramo y negativos en apoyos.", "Dimensionamiento del área de acero longitudinal a flexión simple y doblemente reforzada verificando cuantías normativas ACI.", "Diseño de estribos por esfuerzo cortante con cálculo de separaciones reglamentarias y verificación de zonas de confinamiento."], "mas_informacion": "Fotos del programa/VIGAX.hpappdir/guia/GUIA_VIGAX.pdf", "subtitulo": "Análisis y diseño de vigas continuas de hormigón armado", "chips": ["Vigas Continuas", "ACI 318", "Envolventes"], "desc_tecnica": "VIGAX calcula vigas continuas hiperestáticas de N tramos bajo diferentes estados de carga, generando envolventes de momentos y cortantes para diseñar la armadura longitudinal superior/inferior y estribos de corte según ACI 318.", "modulos": ["Resolución de vigas continuas por método de giros y desplazamientos", "Generación automática de envolventes de diseño por combinaciones ACI", "Diseño a flexión: cuantías de armadura requerida en apoyos y centro de tramo", "Diseño a corte: espaciamiento de estribos y zonas de confinamiento", "Verificación de deflexiones inmediatas y diferidas a largo plazo"], "captura_label": "Pantalla HP Prime: Envolvente de momentos flectores y armado de vigas"}, "036": {"id": "036", "nombre": "ZAPATIX", "codigo_corto": "ZAPATIX", "icono": "assets/programas/ZAPATIX/icono.png", "icono_svg": "assets/programas/ZAPATIX/icono.svg", "capturas": ["assets/programas/ZAPATIX/capturas/036_01.png", "assets/programas/ZAPATIX/capturas/036_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/ZAPATIX.hpappdir/guia/GUIA_ZAPATIX.pdf", "descripcion": "ZAPATIX es una aplicación de ingeniería de cimentaciones para HP Prime concebida para el dimensionamiento geotécnico y diseño estructural de zapatas superficiales aisladas y corridas conforme al código ACI 318-25. Su objetivo es calcular dimensiones en planta según la capacidad admisible del suelo y dimensionar espesores y armaduras frente a punzonamiento, cortante y flexión.", "funciones": ["Predimensionamiento en planta de zapatas aisladas (cuadradas y rectangulares) y zapatas corridas bajo carga axial y momentos flectores.", "Verificación de esfuerzos netos transmitidos al terreno de cimentación frente al esfuerzo admisible admisible del suelo.", "Comprobación de esfuerzos cortantes unidireccionales como viga ancha a la distancia d de la cara de la columna.", "Verificación rigurosa del esfuerzo cortante bidireccional por punzonamiento en la sección crítica perimetral a d/2.", "Diseño del refuerzo de acero por flexión en ambas direcciones principales y verificación de anclaje y longitud de desarrollo."], "mas_informacion": "Fotos del programa/ZAPATIX.hpappdir/guia/GUIA_ZAPATIX.pdf", "subtitulo": "Diseño de zapatas aisladas concéntricas y excéntricas", "chips": ["Zapatas Aisladas", "ACI 318", "Punzonamiento"], "desc_tecnica": "ZAPATIX diseña zapatas aisladas superficiales de hormigón armado sometidas a carga axial y momentos flectores biaxiales, verificando presiones en el terreno, punzonamiento bidireccional, cortante por flexión y acero de refuerzo.", "modulos": ["Verificación de presiones de contacto admisible en el suelo (qmax, qmin)", "Control de cortante bidireccional por punzonamiento perimetral ACI 318", "Verificación a esfuerzo cortante en viga ancha a distancia 'd'", "Dimensionamiento de armadura por flexión en ambas direcciones", "Comprobación de aplastamiento y longitud de desarrollo de arranques"], "captura_label": "Pantalla HP Prime: Esfuerzo de punzonamiento y ratio de seguridad"}, "037": {"id": "037", "nombre": "CIMENTIX", "codigo_corto": "ZMULTI", "icono": "assets/programas/CIMENTIX/icono.png", "icono_svg": "assets/programas/CIMENTIX/icono.svg", "capturas": ["assets/programas/CIMENTIX/capturas/037_01.png", "assets/programas/CIMENTIX/capturas/037_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/CIMENTIX.hpappdir/guia/GUIA_CIMENTIX.pdf", "descripcion": "CIMENTIX es un programa de diseño de fundaciones para HP Prime especializado en cimentaciones superficiales complejas con múltiples columnas, tales como zapatas combinadas y zapatas conectadas con viga de fundación. Su función es equilibrar presiones en el suelo, resolver momentos y cortantes en la viga de conexión y dimensionar las armaduras bajo el código ACI 318.", "funciones": ["Dimensionamiento geotécnico de zapatas combinadas rectangulares y trapezoidales para lograr una distribución uniforme de presiones.", "Modelado y resolución estructural de zapatas conectadas con viga de enlace rígida para controlar momentos de excentricidad en linderos.", "Cálculo de diagramas de momentos flectores y fuerzas cortantes a lo largo de la zapata combinada o viga de conexión.", "Verificación de espesores mínimos frente a solicitaciones de cortante por flexión y punzonamiento en torno a columnas exteriores e interiores.", "Diseño de armaduras longitudinales superiores e inferiores y estribos de confinamiento en vigas y losas de cimentación."], "mas_informacion": "Fotos del programa/CIMENTIX.hpappdir/guia/GUIA_CIMENTIX.pdf", "subtitulo": "Zapatas combinadas y losas de cimentación con balasto", "chips": ["Cimentaciones Combinadas", "Módulo de Balasto", "Winkler"], "desc_tecnica": "CIMENTIX resuelve cimentaciones combinadas y vigas de fundación apoyadas sobre lecho elástico (modelo de Winkler). Calcula distribución de presiones de contacto, diagramas de momentos flectores y armadura requerida.", "modulos": ["Diseño de zapatas combinadas de dos columnas con centroide de cargas", "Modelado de vigas de cimentación continua sobre balasto (Winkler)", "Diagramas continuos de presiones de suelo, cortantes y momentos", "Diseño de armadura longitudinal y estribos en viga de conexión", "Control de asentamientos elásticos diferenciales entre apoyos"], "captura_label": "Pantalla HP Prime: Presiones de contacto sobre el terreno y momentos"}, "038": {"id": "038", "nombre": "MATRIX", "codigo_corto": "MATRIX", "icono": "assets/programas/MATRIX/icono.png", "icono_svg": "assets/programas/MATRIX/icono.svg", "capturas": ["assets/programas/MATRIX/capturas/038_01.png", "assets/programas/MATRIX/capturas/038_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/MATRIX.hpappdir/guia/GUIA_MATRIX.pdf", "descripcion": "MATRIX es una suite industrial de análisis estructural para HP Prime orientada a la resolución elástica lineal de estructuras complejas mediante el Método de Rigidez Directa. Su finalidad es modelar y resolver de forma unificada pórticos planos bidimensionales, armaduras espaciales tridimensionales y emparrillados planos bajo múltiples condiciones de carga y apoyos.", "funciones": ["Resolución elástica lineal multimodelo que integra pórticos planos 2D (P2), cerchas espaciales 3D (A3) y emparrillados de vigas (PA).", "Ensamble automatizado de la matriz de rigidez global de la estructura a partir de matrices de rigidez locales de barra.", "Aplicación de condiciones de contorno y resolución del sistema de ecuaciones algebraicas para desplazamientos nodales.", "Determinación de fuerzas internas en extremos de barra (esfuerzo axial, fuerza cortante, momento flector y torsor).", "Cálculo exacto de reacciones de apoyo y verificación del equilibrio estático global de la estructura."], "mas_informacion": "Fotos del programa/MATRIX.hpappdir/guia/GUIA_MATRIX.pdf", "subtitulo": "Análisis matricial 2D de pórticos planos y marcos estructurales", "chips": ["Matricial 2D", "Pórticos Planos", "Rigidez Global"], "desc_tecnica": "MATRIX realiza el análisis estructural matricial de pórticos planos 2D con apoyos fijos, articulados o elásticos, calculando desplazamientos nodales, reacciones de vínculo y diagramas de solicitaciones internas axil, corte y momento.", "modulos": ["Ensamble de la matriz de rigidez global K considerando 3 GDL por nudo", "Tratamiento de cargas nodales, distribuidas y desalineamientos", "Cálculo de vector de desplazamientos nodales globales", "Determinación de fuerzas internas en extremos de barra (N, V, M)", "Visualización gráfica de la deformada elástica de la estructura"], "captura_label": "Pantalla HP Prime: Geometría deformada del pórtico 2D y diagramas"}, "039": {"id": "039", "nombre": "FRAMIX", "codigo_corto": "FRAMIX", "icono": "assets/programas/FRAMIX/icono.png", "icono_svg": "assets/programas/FRAMIX/icono.svg", "capturas": ["assets/programas/FRAMIX/capturas/039_01.png", "assets/programas/FRAMIX/capturas/039_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/FRAMIX.hpappdir/guia/GUIA_FRAMIX.pdf", "descripcion": "FRAMIX es una suite computacional para HP Prime dedicada al análisis estructural de pórticos planos bidimensionales mediante el Método de Rigidez Directa y métodos energéticos clásicos. Su objetivo es calcular desplazamientos en nudos, diagramas continuos de solicitaciones internas y comparar resultados con métodos de trabajo virtual y teoremas de Castigliano.", "funciones": ["Análisis matricial de pórticos planos 2D considerando deformaciones por flexión y deformaciones axiales de barra.", "Integración exacta de cargas distribuidas trapezoidales y puntuales intermedias mediante funciones de forma cúbicas de Hermite.", "Cálculo de desplazamientos traslacionales y rotaciones nodales mediante solución del sistema de rigidez condensado.", "Trazado continuo y determinación de valores numéricos de momentos flectores, fuerzas cortantes y esfuerzos axiales en barras.", "Módulo comparativo didáctico con formulaciones energéticas clásicas (Método de Fuerzas y Teorema de Castigliano)."], "mas_informacion": "Fotos del programa/FRAMIX.hpappdir/guia/GUIA_FRAMIX.pdf", "subtitulo": "Análisis matricial 3D de pórticos espaciales tridimensionales", "chips": ["Matricial 3D", "Pórticos Espaciales", "6 GDL por Nudo"], "desc_tecnica": "FRAMIX modela y analiza pórticos espaciales tridimensionales (3D) considerando 6 grados de libertad por nudo (3 traslaciones y 3 rotaciones), resolviendo flexión biaxial, torsión de Saint-Venant, corte y esfuerzo axial en cada miembro.", "modulos": ["Modelado en terna cartesiana 3D con matrices de transformación espacial", "Ensamble de rigidez global considerando 6 GDL por nudo", "Tratamiento de cargas gravitacionales, sísmicas y de viento espaciales", "Cálculo de 12 solicitaciones internas por barra con torsión incluida", "Visualización orbital tridimensional de la estructura deformada"], "captura_label": "Pantalla HP Prime: Visualización tridimensional del pórtico espacial"}, "040": {"id": "040", "nombre": "CERCHIX", "codigo_corto": "CERCHIX", "icono": "assets/programas/CERCHIX/icono.png", "icono_svg": "assets/programas/CERCHIX/icono.svg", "capturas": ["assets/programas/CERCHIX/capturas/040_01.png", "assets/programas/CERCHIX/capturas/040_02.png"], "total_capturas": 2, "guia_pdf": "Fotos del programa/CERCHIX.hpappdir/guia/GUIA_CERCHIX.pdf", "descripcion": "CERCHIX es un software especializado para HP Prime enfocado en el análisis matricial tridimensional de armaduras y cerchas espaciales (3D). Su propósito principal es calcular los desplazamientos nodales en el espacio, determinar las fuerzas axiales en cada barra identificando tracción o compresión, y evaluar reacciones de apoyo con visualización orbital.", "funciones": ["Modelado tridimensional de estructuras articuladas en el espacio cartesiano (X, Y, Z) con propiedades mecánicas por barra.", "Ensamble de la matriz de rigidez global tridimensional considerando tres grados de libertad traslacionales por nudo.", "Tratamiento analítico de apoyos fijos, apoyos deslizantes y apoyos en planos inclinados espaciales.", "Cálculo del esfuerzo axial interno en cada barra con identificación automática del estado de tracción o compresión.", "Entorno de visualización gráfica orbital 3D de la geometría de la cercha deformada y diagrama de esfuerzos axiales."], "mas_informacion": "Fotos del programa/CERCHIX.hpappdir/guia/GUIA_CERCHIX.pdf", "subtitulo": "Análisis matricial tridimensional de cerchas y armaduras 3D", "chips": ["Cerchas 3D", "3D Orbital", "Esfuerzos Axiales"], "desc_tecnica": "CERCHIX calcula estructuras articuladas y armaduras espaciales tridimensionales (3D), determinando los desplazamientos nodales espaciales, reacciones de apoyo y el esfuerzo axial exacto en cada barra con identificación de tracción o compresión.", "modulos": ["Modelado de nudos en el espacio cartesiano tridimensional (X, Y, Z)", "Matriz de rigidez espacial de barra articulada con 3 GDL por nudo", "Cálculo de esfuerzo axial interno con identificación de tracción/compresión", "Verificación de barras más solicitadas y ratios de capacidad", "Entorno de visualización gráfica orbital 3D de la cercha deformada"], "captura_label": "Vista del módulo: Visualización orbital 3D de armadura deformada"}};
+
+    // Clasificación temática para filtros rápidos
+    const CATEGORIAS = {
+      estructuras: ["001", "007", "013", "015", "017", "025", "026", "027", "030", "035"],
+      matricial: ["004", "010", "016", "018", "019", "031", "038", "039", "040"],
+      geotecnia: ["020", "021", "024", "029", "036", "037"],
+      hidraulica: ["005", "011", "014", "028", "033"],
+      vias: ["002", "006", "022", "032"],
+      costos: ["003", "008", "009", "012", "023", "034"]
+    };
+
+    let currentFilter = "all";
+    let currentSearch = "";
+
+    function renderPrograms() {
+      const grid = document.getElementById("programsGrid");
+      grid.innerHTML = "";
+
+      const pids = Object.keys(CATALOGO).sort();
+      let count = 0;
+
+      for (const pid of pids) {
+        const prog = CATALOGO[pid];
+        
+        // Filtro de categoría
+        if (currentFilter !== "all" && !CATEGORIAS[currentFilter].includes(pid)) {
+          continue;
+        }
+
+        // Filtro de búsqueda
+        if (currentSearch) {
+          const q = currentSearch.toLowerCase();
+          const matchId = pid.includes(q);
+          const matchName = prog.nombre.toLowerCase().includes(q);
+          const matchSub = (prog.subtitulo || "").toLowerCase().includes(q);
+          const matchChips = (prog.chips || []).some(c => c.toLowerCase().includes(q));
+          const matchDesc = (prog.desc_tecnica || prog.descripcion).toLowerCase().includes(q);
+          const matchMods = (prog.modulos || prog.funciones).some(m => m.toLowerCase().includes(q));
+          if (!matchId && !matchName && !matchSub && !matchChips && !matchDesc && !matchMods) {
+            continue;
+          }
+        }
+
+        count++;
+        const card = document.createElement("article");
+        card.className = "prog-card";
+
+        // Rutas relativas desde /landing/
+        const iconPath = prog.icono;
+        const screenPath = prog.capturas.length > 0 ? prog.capturas[0] : "";
+        const screenCaption = prog.captura_label || `Pantalla HP Prime: Módulo de ${prog.nombre}`;
+        const subtitulo = prog.subtitulo || `Módulo de cálculo para HP Prime`;
+        const chips = prog.chips || ["Ingeniería Civil", "HP Prime", "Cálculo"];
+        const desc = prog.desc_tecnica || prog.descripcion;
+        const modulos = prog.modulos || prog.funciones;
+
+        // 5. EN LA TARJETA RESUMIDA NO SE MUESTRA EL ID
+        card.innerHTML = `
+          <div>
+            <div class="prog-card-top">
+              <img src="${iconPath}" alt="${prog.nombre}" class="prog-icon">
+              <div class="prog-header-info">
+                <div class="prog-name liquid-title">${prog.nombre}</div>
+                <div class="prog-subtitulo">${subtitulo}</div>
+              </div>
+            </div>
+
+            <div class="prog-chips">
+              ${chips.map(c => `<span class="tech-chip">${c}</span>`).join('')}
+            </div>
+
+            <div class="prog-card-body">
+              <p class="prog-desc">${desc}</p>
+
+              ${screenPath ? `
+                <div class="prog-screen-block">
+                  <div class="prog-screen-caption">
+                    <span class="dot"></span>
+                    <span>${screenCaption}</span>
+                  </div>
+                  <div class="prog-screen-preview" onclick="openModal('${pid}')">
+                    <img src="${screenPath}" alt="Captura ${prog.nombre}">
+                    <span class="screen-hint">🔎 Ampliar</span>
+                  </div>
+                </div>
+              ` : ''}
+
+              <div class="prog-modules-header">Módulos Principales</div>
+              <ul class="prog-modules-list">
+                ${modulos.slice(0, 4).map(m => `<li>${m}</li>`).join('')}
+                ${modulos.length > 4 ? `<li style="color: var(--orange); font-weight: 600;">+ ${modulos.length - 4} módulo normativo más en guía</li>` : ''}
+              </ul>
+            </div>
+          </div>
+
+          <div class="prog-card-footer">
+            <button class="btn-card-primary" onclick="openModal('${pid}')">Ver Ficha Técnica</button>
+            <a class="btn-card-wa" href="https://wa.me/59169666824?text=Hola,%20solicito%20información%20técnica%20del%20programa%20${prog.id}%20${prog.nombre}%20para%20HP%20Prime" target="_blank" rel="noopener">
+              Solicitar Información
+            </a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      }
+
+      if (count === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">No se encontraron programas con ese criterio de búsqueda.</div>`;
+      }
+
+      // Conectar automáticamente la animación líquida WebGL a los títulos de las tarjetas
+      if (window.LiquidText && window.LiquidText.scan) {
+        window.LiquidText.scan();
+      }
+    }
+
+    // 2 y 5. Modal / Ficha Técnica con ID VISIBLE y distribución 2-columnas
+    function openModal(pid) {
+      const prog = CATALOGO[pid];
+      if (!prog) return;
+
+      document.getElementById("modalIcon").src = prog.icono;
+      // EL ID SÍ APARECE EN LA FICHA TÉCNICA COMPLETA
+      document.getElementById("modalId").textContent = "ID " + prog.id;
+      document.getElementById("modalTitle").textContent = prog.nombre;
+      document.getElementById("modalSubtitulo").textContent = prog.subtitulo || "";
+      document.getElementById("modalDesc").textContent = prog.desc_tecnica || prog.descripcion;
+      document.getElementById("modalGuia").textContent = "• Manual Oficial: " + (prog.guia_pdf ? prog.guia_pdf.split('/').pop() : 'Guía incluida');
+
+      const chipsRow = document.getElementById("modalChipsRow");
+      chipsRow.innerHTML = (prog.chips || []).map(c => `<span class="tech-chip">${c}</span>`).join('');
+
+      const funcsUl = document.getElementById("modalFuncs");
+      const mods = prog.modulos || prog.funciones;
+      funcsUl.innerHTML = mods.map(m => `
+        <li>
+          <span class="check">✔</span>
+          <span>${m}</span>
+        </li>
+      `).join('');
+
+      const screensBox = document.getElementById("modalScreens");
+      screensBox.innerHTML = prog.capturas.map((c, idx) => `
+        <div class="modal-screen-card">
+          <div class="modal-screen-tag">
+            <span>Captura 0${idx+1} — HP Prime G2</span>
+            <span class="badge">Nativa 320x240</span>
+          </div>
+          <div class="modal-screen-img-wrap">
+            <img src="${c}" alt="Captura HP Prime">
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById("modalWaBtn").href = `https://wa.me/59169666824?text=Hola,%20deseo%20adquirir%20la%20ficha%20y%20archivos%20del%20programa%20${prog.id}%20${prog.nombre}%20para%20HP%20Prime`;
+
+      document.getElementById("progModal").classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("progModal").classList.remove("active");
+    }
+
+    // Eventos de Búsqueda y Filtros
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      currentSearch = e.target.value.trim();
+      renderPrograms();
+    });
+
+    document.querySelectorAll(".filter-tag").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-tag").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        renderPrograms();
+      });
+    });
+
+    // Script de sincronización de rotación y viaje del logo flotante (Idéntico a INERTIX)
+    const floatingLogo = document.querySelector('.floating-logo');
+    function syncFloatingLogo() {
+      if (!floatingLogo) return;
+      const width = floatingLogo.getBoundingClientRect().width;
+      const left = parseFloat(getComputedStyle(floatingLogo).left) || 16;
+      const travel = Math.max(0, window.innerWidth - width - (left * 2));
+      const duration = Math.max(8, Math.min(18, travel / 95));
+      floatingLogo.style.setProperty('--travel', `${travel}px`);
+      floatingLogo.style.setProperty('--logo-duration', `${duration}s`);
+    }
+    syncFloatingLogo();
+    window.addEventListener('resize', syncFloatingLogo, { passive: true });
+
+    // Render inicial
+    renderPrograms();
+  </script>
+
+  <!-- EFECTO WEBGL DISPLACEMENT MAP LÍQUIDO (Copiado y adaptado de INERTIX) -->
+  <script src="assets/js/liquid-text.js" defer></script>
+</body>
+</html>
